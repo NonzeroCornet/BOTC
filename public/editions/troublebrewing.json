@@ -1,0 +1,228 @@
+{
+  "roles": {
+    "Townsfolk": {
+      "Washerwoman": [
+        "clothesline",
+        "You start knowing that 1 of 2 players is a particular Townsfolk."
+      ],
+      "Librarian": [
+        "book-cover",
+        "You start knowing that 1 of 2 players is a particular Outsider (Or that zero are in play)."
+      ],
+      "Investigator": [
+        "magnifying-glass",
+        "You start knowing that 1 of 2 players is a particular Minion."
+      ],
+      "Chef": [
+        "chef-toque",
+        "You start knowing how many pairs of evil players there are."
+      ],
+      "Empath": [
+        "hearts",
+        "You start knowing that 1 of 2 players is a particular Townsfolk."
+      ],
+      "Fortune Teller": [
+        "crystal-ball",
+        "Each night, choose 2 players. You learn if either is a Demon. There is a good player that registers as a Demon to you."
+      ],
+      "Undertaker": [
+        "spade",
+        "Each night*, you learn which character died by execution today."
+      ],
+      "Monk": [
+        "crucifix",
+        "Each night*, choose a player (not yourself). They are safe from the Demon tonight."
+      ],
+      "Ravenkeeper": [
+        "raven",
+        "If you die at night, you are woken to choose a player. You learn their character."
+      ],
+      "Virgin": [
+        "ring",
+        "The 1st time you are nominated, if the nominator is a Townsfolk, they are executed immediately."
+      ],
+      "Slayer": [
+        "crossbow",
+        "Once per game, during the day, publicly choose a player. If they are the Demon, they die."
+      ],
+      "Soldier": ["checked-shield", "You are safe from the Demon."],
+      "Mayor": [
+        "greek-temple",
+        "If only 3 players live and no execution occurs, your team wins. If you die at night, another player might die instead."
+      ]
+    },
+    "Outsiders": {
+      "Butler": [
+        "bow-tie",
+        "Each night, choose a player (not yourself). Tomorrow, you may only vote if they are voting too."
+      ],
+      "Drunk": [
+        "beer-stein",
+        "You do not know you are the drunk. You think you are a Townsfolk character, but you are not."
+      ],
+      "Recluse": [
+        "old-lantern",
+        "You might register as evil & as a Minion or Demon, even if dead."
+      ],
+      "Saint": ["angel-outfit", "If you die by execution, your team loses."]
+    },
+    "Minions": {
+      "Poisoner": [
+        "vial",
+        "Each night, choose a player. They are poisoned tonight and tomorrow day."
+      ],
+      "Spy": [
+        "domino-mask",
+        "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead."
+      ],
+      "Baron": ["top-hat", "There are extra Outsiders in play. [+2 Outsiders]"],
+      "Scarlet Woman": [
+        "lips",
+        "If there are 5 or more players alive and the Demon dies, you become the Demon (Travellers don't count)."
+      ]
+    },
+    "Demons": {
+      "Imp": [
+        "harpoon-trident",
+        "Each night*, choose a player. They die. If you kill yourself this way, a Minion becomes the Imp."
+      ]
+    }
+  },
+  "rolecount": {
+    "Townsfolk": {
+      "5": 3,
+      "6": 3,
+      "7": 5,
+      "8": 5,
+      "9": 5,
+      "10": 7,
+      "11": 7,
+      "12": 7,
+      "13": 9,
+      "14": 9,
+      "15": 9
+    },
+    "Outsiders": {
+      "5": 0,
+      "6": 1,
+      "7": 0,
+      "8": 1,
+      "9": 2,
+      "10": 0,
+      "11": 1,
+      "12": 2,
+      "13": 0,
+      "14": 1,
+      "15": 2
+    },
+    "Minions": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 2,
+      "11": 2,
+      "12": 2,
+      "13": 3,
+      "14": 3,
+      "15": 3
+    },
+    "Demons": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1
+    }
+  },
+  "nightorder": [
+    {
+      "title": "Dusk",
+      "text": "Start the Night phase",
+      "messages": [],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Minion Info",
+      "text": "If there are 7 or more players, wake all Minions: Show the *THIS IS THE DEMON* token. Point to the Demon.",
+      "messages": ["THIS IS THE DEMON"],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Demon Info",
+      "text": "If there are 7 or more players, wake the Demon: Show the *THESE ARE YOUR MINIONS* token. Point to all Minions. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
+      "messages": [
+        "THESE ARE YOUR MINIONS",
+        "THESE CHARACTERS ARE NOT IN PLAY"
+      ],
+      "tokenpresenter": true
+    },
+    {
+      "title": "Poisoner (If in play)",
+      "text": "The Poisoner chooses a player.",
+      "messages": [],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Washerwoman (If in play)",
+      "text": "Show the Townsfolk character token. Point to both the *TOWNSFOLK* and *WRONG* players.",
+      "messages": [],
+      "tokenpresenter": true
+    },
+    {
+      "title": "Librarian (If in play)",
+      "text": "Show the Outsider character token. Point to both the *OUTSIDER* and *WRONG* players.",
+      "messages": [],
+      "tokenpresenter": true
+    },
+    {
+      "title": "Investigator (If in play)",
+      "text": "Show the Minion character token. Point to both the *MINION* and *WRONG* players.",
+      "messages": [],
+      "tokenpresenter": true
+    },
+    {
+      "title": "Chef (If in play)",
+      "text": "Give a finger signal.",
+      "messages": [],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Empath (If in play)",
+      "text": "Give a finger signal.",
+      "messages": [],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Fortune Teller (If in play)",
+      "text": "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the *RED HERRING*).",
+      "messages": [],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Butler (If in play)",
+      "text": "The Butler chooses a player.",
+      "messages": [],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Spy (If in play)",
+      "text": "Show the Grimoire for as long as the Spy needs.",
+      "messages": [],
+      "tokenpresenter": false
+    },
+    {
+      "title": "Dawn",
+      "text": "Wait for a few seconds. End the Night Phase.",
+      "messages": [],
+      "tokenpresenter": false
+    }
+  ]
+}

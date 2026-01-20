@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Blood on the Clocktower - A social deduction game interface for hosting and joining rooms, selecting roles, and managing gameplay."
+    />
+    <title>BOTC</title>
+    <link rel="icon" href="icons/bookmarklet.svg" />
+    <link rel="stylesheet" href="styles.min.css" />
+    <link rel="stylesheet" href="sweetalert2.min.css" />
+  </head>
+  <body>
+    <main>
+      <div id="initial">
+        <button id="hostBtn">Host Room</button>
+        <div>
+          <input
+            type="text"
+            id="roomInput"
+            placeholder="Enter room code"
+            pattern="[A-Z]{4}"
+            maxlength="4"
+          />
+          <input type="text" id="usernameInput" placeholder="Enter name" />
+          <button id="joinBtn">Join Room</button>
+        </div>
+      </div>
+      <div id="hosted" style="display: none">
+        <p>Your room code: <span id="roomCode"></span></p>
+        <div id="globalTimerDisplay" class="global-timer">00:00</div>
+        <div id="roleSelection" style="display: none">
+          <h2>Select Roles</h2>
+          <div id="categories"></div>
+          <button id="confirmRolesBtn">Confirm Selection</button>
+        </div>
+        <div id="roleCircle" style="display: none">
+          <div id="circleContainer"></div>
+          <button id="revealRolesBtn">Reveal Roles to Players</button>
+        </div>
+        <button id="characterSheetBtn">Character Sheet</button>
+        <button id="nightOrderBtn">Night Order</button>
+        <button id="timerBtn">Timer</button>
+        <button id="notesBtn">Notes</button>
+        <button id="customMessageBtn">Custom Message</button>
+        <button id="tokensBtn">Tokens</button>
+        <button id="leaveBtn">Leave Room</button>
+      </div>
+      <div id="joined" style="display: none">
+        <p>Joined room as: <span id="username"></span></p>
+        <div id="globalTimerDisplay" class="global-timer">00:00</div>
+        <div id="playerRole">
+          <h2>Your Role</h2>
+          <div id="roleDisplay">
+            <div class="role-token player-token">
+              <div class="role-name">?</div>
+            </div>
+          </div>
+        </div>
+        <button id="timerBtn">Timer</button>
+        <button id="characterSheetBtn">Character Sheet</button>
+        <button id="notesBtn">Notes</button>
+        <button id="leaveBtn">Leave Room</button>
+      </div>
+      <div id="notesContainer" style="display: none">
+        <h3>Notes</h3>
+        <textarea
+          id="notesTextarea"
+          placeholder="Enter your notes here..."
+        ></textarea>
+      </div>
+      <div id="messages"></div>
+    </main>
+
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="/socket.io/socket.io.min.js"></script>
+    <script src="client.min.js"></script>
+  </body>
+</html>

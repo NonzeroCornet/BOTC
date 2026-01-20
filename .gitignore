@@ -41,7 +41,7 @@ jspm_packages/
 .nuxt
 dist
 .cache/
-public
+icons
 .vuepress/dist
 .serverless/
 .fusebox/
