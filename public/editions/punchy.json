@@ -1,0 +1,370 @@
+{
+  "roles": {
+    "Townsfolk": {
+      "Steward": ["vertical-banner", "You start knowing 1 good player."],
+      "Pixie": [
+        "fairy",
+        "You start knowing 1 in-play Townsfolk. If you were mad that you were this character, you gain their ability when they die."
+      ],
+      "Balloonist": [
+        "air-balloon",
+        "Each night, you learn a player of a different character type than last night. [+0 or +1 Outsider]"
+      ],
+      "General": [
+        "staryu",
+        "Each night, you learn which alignment the Storyteller believes is winning: good, evil, or neither."
+      ],
+      "Monk": [
+        "crucifix",
+        "Each night*, choose a player (not yourself): they are safe from the Demon tonight."
+      ],
+      "Savant": [
+        "rocking-chair",
+        "Each day, you may visit the Storyteller to learn 2 things in private: 1 is true & 1 is false."
+      ],
+      "Philosopher": [
+        "smoking-pipe",
+        "Once per game, at night, choose a good character: gain that ability. If this character is in play, they are drunk."
+      ],
+      "Huntsman": [
+        "peaks",
+        "Once per game, at night, choose a living player: the Damsel, if chosen, becomes a not-in-play Townsfolk. [+the Damsel]"
+      ],
+      "Slayer": [
+        "crossbow",
+        "Once per game, during the day, publicly choose a player: if they are the Demon, they die."
+      ],
+      "Princess": [
+        "tiara",
+        "On your 1st day, if you nominated & executed a player, the Demon doesn't kill tonight."
+      ],
+      "Alchemist": [
+        "round-potion",
+        "You have a Minion ability. When using this, the Storyteller may prompt you to choose differently."
+      ],
+      "Cannibal": [
+        "cake-slice",
+        "You have the ability of the recently killed executee. If they are evil, you are poisoned until a good player dies by execution."
+      ],
+      "Amnesiac": [
+        "uncertainty",
+        "You do not know what your ability is. Each day, privately guess what it is: you learn how accurate you are."
+      ]
+    },
+    "Outsiders": {
+      "Ogre": [
+        "wood-club",
+        "On your 1st night, choose a player (not yourself): you become their alignment (you don't know which) even if drunk or poisoned."
+      ],
+      "Drunk": [
+        "beer-stein",
+        "You do not know you are the Drunk. You think you are a Townsfolk character, but you are not."
+      ],
+      "Mutant": [
+        "medieval-pavilion",
+        "If you are “mad” about being an Outsider, you might be executed."
+      ],
+      "Damsel": [
+        "high-heel",
+        "All Minions know a Damsel is in play. If a Minion publicly guesses you (once), your team loses."
+      ]
+    },
+    "Minions": {
+      "Harpy": [
+        "evil-hand",
+        "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or one or both might die."
+      ],
+      "Cerenovus": [
+        "brain",
+        "Each night, choose a player & a good character: they are “mad” they are this character tomorrow, or might be executed."
+      ],
+      "Psychopath": [
+        "fire-axe",
+        "Each day, before nominations, you may publicly choose a player: they die. If executed, you only die if you lose roshambo."
+      ],
+      "Vizier": [
+        "crown-of-thorns",
+        "All players know you are the Vizier. You cannot die during the day. If good voted, you may choose to execute immediately."
+      ]
+    },
+    "Demons": {
+      "Pukka": [
+        "evil-fork",
+        "Each night, choose a player: they are poisoned. The previously poisoned player dies then becomes healthy."
+      ],
+      "Ojo": [
+        "falling-eye",
+        "Each night*, choose a character: they die. If they are not in play, the Storyteller chooses who dies."
+      ],
+      "Kazali": [
+        "abstract-034",
+        "Each night*, choose a player: they die. [You choose which players are which Minions. -? to +? Outsiders]"
+      ],
+      "Vigormortis": [
+        "boss-key",
+        "Each night*, choose a player: they die. Minions you kill keep their ability & poison 1 Townsfolk neighbor. [-1 Outsider]"
+      ]
+    }
+  },
+  "rolecount": {
+    "Townsfolk": {
+      "5": 3,
+      "6": 3,
+      "7": 5,
+      "8": 5,
+      "9": 5,
+      "10": 7,
+      "11": 7,
+      "12": 7,
+      "13": 9,
+      "14": 9,
+      "15": 9
+    },
+    "Outsiders": {
+      "5": 0,
+      "6": 1,
+      "7": 0,
+      "8": 1,
+      "9": 2,
+      "10": 0,
+      "11": 1,
+      "12": 2,
+      "13": 0,
+      "14": 1,
+      "15": 2
+    },
+    "Minions": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 2,
+      "11": 2,
+      "12": 2,
+      "13": 3,
+      "14": 3,
+      "15": 3
+    },
+    "Demons": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1
+    }
+  },
+  "nightorder": {
+    "1": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Kazali (If in play)",
+        "text": "Wake the Kazali, allow them to choose Minions. If the Kazali chooses the Damsel to become a Minion, and a Huntsman is in play, a good player becomes the Damsel.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Philosopher (If in play)",
+        "text": "The Philosopher might choose a character. If necessary, swap their character token.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Alchemist (If in play)",
+        "text": "Show the *YOU ARE* token and the character token of a Minion.",
+        "messages": ["YOU ARE"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Minion Info",
+        "text": "If there are 7 or more players, wake all Minions: Show the *THIS IS THE DEMON* token. Point to the Demon.  Show the *THESE ARE OTHER MINIONS* token. Point to the other Minions.",
+        "messages": ["THIS IS THE DEMON", "THESE ARE OTHER MINIONS"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Demon Info",
+        "text": "If there are 7 or more players, wake the Demon: Show the *THESE ARE YOUR MINIONS* token. Point to all Minions. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
+        "messages": [
+          "THESE ARE YOUR MINIONS",
+          "THESE CHARACTERS ARE NOT IN PLAY"
+        ],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Cerenovus (If in play)",
+        "text": "The Cerenovus chooses a player & a character. Put the Cerenovus to sleep. Wake the target. Show the *THE CERENOVUS SELECTED YOU* token, then the madness-character token.",
+        "messages": ["THE CERENOVUS SELECTED YOU"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Harpy (If in play)",
+        "text": "The Harpy chooses two players. Put the Harpy to sleep. Wake the 1st target. Show the *THE HARPY SELECTED YOU* token, then point to the 2nd target.",
+        "messages": ["THE HARPY SELECTED YOU"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Pukka (If in play)",
+        "text": "The Pukka chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Pixie (If in play)",
+        "text": "Show an Townsfolk character token in play.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Huntsman (If in play)",
+        "text": "The Huntsman might choose a player. If that player was the Damsel: Put the Huntsman to sleep. Wake the Damsel and show them the *YOU ARE* info token and their new character token.",
+        "messages": ["YOU ARE"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Amnesiac (If in play)",
+        "text": "Run the Amnesiac's ability, if applicable.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Steward (If in play)",
+        "text": "Point to the good player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Balloonist (If in play)",
+        "text": "Point to any player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Ogre (If in play)",
+        "text": "The Ogre points to a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "General (If in play)",
+        "text": "Give a thumb signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Vizier (If in play)",
+        "text": "Announce the Vizier player to the group.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ],
+    "*": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Philosopher (If in play)",
+        "text": "The Philosopher might choose a character. If necessary, swap their character token.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Monk (If in play)",
+        "text": "The Monk chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Cerenovus (If in play)",
+        "text": "The Cerenovus chooses a player & a character. Put the Cerenovus to sleep. Wake the target. Show the *THE CERENOVUS SELECTED YOU* token, then the madness-character token.",
+        "messages": ["THE CERENOVUS SELECTED YOU"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Harpy (If in play)",
+        "text": "The Harpy chooses two players. Put the Harpy to sleep. Wake the 1st target. Show the *THE HARPY SELECTED YOU* token, then point to the 2nd target.",
+        "messages": ["THE HARPY SELECTED YOU"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Princess (If in play)",
+        "text": "If the Princess nominated the player who was executed today, the Demon wakes as normal, but no one dies to the Demon's ability.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Pukka (If in play)",
+        "text": "The Pukka chooses a player. The previously poisoned player dies then becomes healthy.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Vigormortis (If in play)",
+        "text": "The Vigormortis chooses a player. If that player is a Minion, poison a neighboring Townsfolk.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Ojo (If in play)",
+        "text": "The Ojo chooses a character.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Kazali (If in play)",
+        "text": "The Kazali chooses a player. If the Kazali chooses the Damsel to become a Minion, and a Huntsman is in play, a good player becomes the Damsel.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Huntsman (If in play)",
+        "text": "The Huntsman might choose a player. If that player was the Damsel: Put the Huntsman to sleep. Wake the Damsel and show them the *YOU ARE* info token and their new character token.",
+        "messages": ["YOU ARE"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Amnesiac (If in play)",
+        "text": "Run the Amnesiac's ability, if applicable.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Balloonist (If in play)",
+        "text": "Show a player with a different character type to previously.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "General (If in play)",
+        "text": "Give a thumb signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ]
+  }
+}

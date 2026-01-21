@@ -29,6 +29,14 @@ let revealed = false;
 let rolesRevealed = false;
 let currentUsernames = new Set();
 
+function toggleFullscreen() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    document.documentElement.requestFullscreen();
+  }
+}
+
 function saveHostState() {
   if (isHost && currentRoom) {
     const state = {
@@ -99,6 +107,7 @@ hostBtn.addEventListener("click", () => {
         input: "select",
         inputOptions: {
           troublebrewing: "Trouble Brewing",
+          punchy: "Punchy",
         },
         showCancelButton: true,
       }).then((outE) => {
@@ -210,7 +219,10 @@ socket.on("hosted", (code) => {
     .then((response) => response.json())
     .then((data) => {
       editionData = data;
-      nightOrder = data.nightorder;
+      nightOrder =
+        editionData.nightorder[currentNight.toString()] ||
+        editionData.nightorder["*"];
+      currentNightIndex = 0;
       showRoleSelection();
     });
   document.getElementById("initial").style.display = "none";
@@ -218,6 +230,9 @@ socket.on("hosted", (code) => {
   document.getElementById("roomCode").textContent = code;
   updateGlobalTimerDisplay();
   loadNotes();
+  document
+    .querySelectorAll(".fullscreenBtn")
+    .forEach((btn) => btn.addEventListener("click", toggleFullscreen));
   window.history.replaceState(null, "", `?type=host&room=${code}`);
 });
 
@@ -229,6 +244,9 @@ socket.on("joined", (data) => {
   document.getElementById("username").textContent = data.username;
   updateGlobalTimerDisplay();
   loadNotes();
+  document
+    .querySelectorAll(".fullscreenBtn")
+    .forEach((btn) => btn.addEventListener("click", toggleFullscreen));
   window.history.replaceState(
     null,
     "",
@@ -245,7 +263,10 @@ socket.on("reconnected-host", (code) => {
       .then((response) => response.json())
       .then((data) => {
         editionData = data;
-        nightOrder = data.nightorder;
+        nightOrder =
+          editionData.nightorder[currentNight.toString()] ||
+          editionData.nightorder["*"];
+        currentNightIndex = 0;
         if (selectedRoles.length > 0) {
           showRoleCircle();
           if (revealed) {
@@ -270,6 +291,9 @@ socket.on("reconnected-host", (code) => {
   document.getElementById("hosted").style.display = "block";
   document.getElementById("roomCode").textContent = code;
   loadNotes();
+  document
+    .querySelectorAll(".fullscreenBtn")
+    .forEach((btn) => btn.addEventListener("click", toggleFullscreen));
 });
 
 socket.on("reconnected-join", (data) => {
@@ -279,6 +303,9 @@ socket.on("reconnected-join", (data) => {
   document.getElementById("joined").style.display = "block";
   document.getElementById("username").textContent = data.username;
   loadNotes();
+  document
+    .querySelectorAll(".fullscreenBtn")
+    .forEach((btn) => btn.addEventListener("click", toggleFullscreen));
 });
 
 socket.on("user-joined", (username) => {
@@ -442,9 +469,23 @@ function showRoleCircle() {
   });
 
   const numRoles = assignments.length;
-  const radius = 350;
-  const centerX = 300;
-  const centerY = 300;
+  const rect = container.getBoundingClientRect();
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+
+  const zoomFactor =
+    parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+
+  const tempToken = document.createElement("div");
+  tempToken.className = "role-token circle-token";
+  tempToken.style.visibility = "hidden";
+  container.appendChild(tempToken);
+  const tokenWidth = tempToken.offsetWidth;
+  const tokenHeight = tempToken.offsetHeight;
+  container.removeChild(tempToken);
+  const tokenRadius = Math.max(tokenWidth, tokenHeight) / 2;
+
+  const radius = Math.min(centerX, centerY) - tokenRadius;
 
   assignments.forEach((assignment, index) => {
     const posKey =
@@ -457,8 +498,8 @@ function showRoleCircle() {
       y = savedPos.y;
     } else {
       const angle = (index / numRoles) * 2 * Math.PI;
-      x = centerX + radius * Math.cos(angle);
-      y = centerY + radius * Math.sin(angle);
+      x = (centerX + radius * Math.cos(angle) - tokenWidth / 2) / zoomFactor;
+      y = (centerY + radius * Math.sin(angle) - tokenHeight / 2) / zoomFactor;
     }
 
     const roleDiv = document.createElement("div");
@@ -1252,7 +1293,7 @@ function showTokenSelection() {
     });
   });
   html +=
-    "</div><div class='token-selection-controls'><button id='showSelectedTokensBtn'>Show Selected Tokens</button><button id='cancelTokenSelectionBtn'>Cancel</button></div></div>";
+    "</div><div class='token-selection-controls'><button id='showAllTokensBtn'>Show All Tokens</button><button id='showSelectedTokensBtn'>Show Selected Tokens</button><button id='cancelTokenSelectionBtn'>Cancel</button></div></div>";
 
   Swal.fire({
     title: "Select Tokens to Show",
@@ -1286,6 +1327,19 @@ function showTokenSelection() {
       });
 
       document
+        .getElementById("showAllTokensBtn")
+        .addEventListener("click", () => {
+          const allRoles = [];
+          Object.keys(editionData.roles).forEach((category) => {
+            Object.keys(editionData.roles[category]).forEach((role) => {
+              allRoles.push({ category, role });
+            });
+          });
+          Swal.close();
+          showFullScreenTokens(allRoles);
+        });
+
+      document
         .getElementById("showSelectedTokensBtn")
         .addEventListener("click", () => {
           if (selectedRoles.length > 0) {
@@ -1309,13 +1363,24 @@ function showTokenSelection() {
 function showFullScreenTokens(selectedRoleObjects) {
   const overlay = document.createElement("div");
   overlay.className = "fullscreen-overlay";
-  let html = "<div class='fullscreen-tokens'>";
+  const count = selectedRoleObjects.length;
+  let columns;
+  if (count <= 3) columns = count;
+  else if (count <= 6) columns = 3;
+  else if (count <= 9) columns = 3;
+  else if (count <= 12) columns = 4;
+  else columns = 5;
+  const scale = Math.max(0.5, 1 - (count - 3) * 0.05);
+  const imgSize = 150 * scale;
+  const fontSize = 1.5 * scale;
+  const padding = 2 * scale;
+  let html = `<div class='fullscreen-tokens' style='grid-template-columns: repeat(${columns}, 1fr);'>`;
   selectedRoleObjects.forEach((roleObj) => {
     const roleData = editionData.roles[roleObj.category][roleObj.role];
     html += `
-      <div class='fullscreen-token'>
-        <img src="icons/${roleData[0]}.svg" alt="${roleObj.role}" />
-        <div>${roleObj.role}</div>
+      <div class='fullscreen-token' style='padding: ${padding}rem;'>
+        <img src="icons/${roleData[0]}.svg" alt="${roleObj.role}" style="width: ${imgSize}px; height: ${imgSize}px;" />
+        <div style="font-size: ${fontSize}rem;">${roleObj.role}</div>
       </div>
     `;
   });
