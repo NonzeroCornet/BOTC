@@ -142,87 +142,163 @@
       "15": 1
     }
   },
-  "nightorder": [
-    {
-      "title": "Dusk",
-      "text": "Start the Night phase",
-      "messages": [],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Minion Info",
-      "text": "If there are 7 or more players, wake all Minions: Show the *THIS IS THE DEMON* token. Point to the Demon.",
-      "messages": ["THIS IS THE DEMON"],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Demon Info",
-      "text": "If there are 7 or more players, wake the Demon: Show the *THESE ARE YOUR MINIONS* token. Point to all Minions. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
-      "messages": [
-        "THESE ARE YOUR MINIONS",
-        "THESE CHARACTERS ARE NOT IN PLAY"
-      ],
-      "tokenpresenter": true
-    },
-    {
-      "title": "Poisoner (If in play)",
-      "text": "The Poisoner chooses a player.",
-      "messages": [],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Washerwoman (If in play)",
-      "text": "Show the Townsfolk character token. Point to both the *TOWNSFOLK* and *WRONG* players.",
-      "messages": [],
-      "tokenpresenter": true
-    },
-    {
-      "title": "Librarian (If in play)",
-      "text": "Show the Outsider character token. Point to both the *OUTSIDER* and *WRONG* players.",
-      "messages": [],
-      "tokenpresenter": true
-    },
-    {
-      "title": "Investigator (If in play)",
-      "text": "Show the Minion character token. Point to both the *MINION* and *WRONG* players.",
-      "messages": [],
-      "tokenpresenter": true
-    },
-    {
-      "title": "Chef (If in play)",
-      "text": "Give a finger signal.",
-      "messages": [],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Empath (If in play)",
-      "text": "Give a finger signal.",
-      "messages": [],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Fortune Teller (If in play)",
-      "text": "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the *RED HERRING*).",
-      "messages": [],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Butler (If in play)",
-      "text": "The Butler chooses a player.",
-      "messages": [],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Spy (If in play)",
-      "text": "Show the Grimoire for as long as the Spy needs.",
-      "messages": [],
-      "tokenpresenter": false
-    },
-    {
-      "title": "Dawn",
-      "text": "Wait for a few seconds. End the Night Phase.",
-      "messages": [],
-      "tokenpresenter": false
-    }
-  ]
+  "nightorder": {
+    "1": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Minion Info",
+        "text": "If there are 7 or more players, wake all Minions: Show the *THIS IS THE DEMON* token. Point to the Demon.",
+        "messages": ["THIS IS THE DEMON"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Demon Info",
+        "text": "If there are 7 or more players, wake the Demon: Show the *THESE ARE YOUR MINIONS* token. Point to all Minions. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
+        "messages": [
+          "THESE ARE YOUR MINIONS",
+          "THESE CHARACTERS ARE NOT IN PLAY"
+        ],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Poisoner (If in play)",
+        "text": "The Poisoner chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Washerwoman (If in play)",
+        "text": "Show the Townsfolk character token. Point to both the *TOWNSFOLK* and *WRONG* players.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Librarian (If in play)",
+        "text": "Show the Outsider character token. Point to both the *OUTSIDER* and *WRONG* players.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Investigator (If in play)",
+        "text": "Show the Minion character token. Point to both the *MINION* and *WRONG* players.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Chef (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Empath (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Fortune Teller (If in play)",
+        "text": "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the *RED HERRING*).",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Butler (If in play)",
+        "text": "The Butler chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Spy (If in play)",
+        "text": "Show the Grimoire for as long as the Spy needs.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ],
+    "*": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Poisoner (If in play)",
+        "text": "The Poisoner chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Monk (If in play)",
+        "text": "The Monk chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Scarlet Woman (If in play)",
+        "text": "If the Scarlet Woman became the Demon today, show them the *YOU ARE* token, then the Demon token.",
+        "messages": ["YOU ARE THE DEMON"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Imp",
+        "text": "The Imp chooses a player. If the Imp chose themselves, replace 1 alive Minion token with a spare Imp token. Put the old Imp to sleep. Wake the new Imp. Show the *YOU ARE* token, then show the Imp token.",
+        "messages": ["YOU ARE THE IMP"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Ravenkeeper (If in play)",
+        "text": "If the Ravenkeeper died tonight, the Ravenkeeper chooses a player. Show that player's character token.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Empath (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Fortune Teller (If in play)",
+        "text": "The Fortune Teller chooses 2 players. Nod if either is the Demon (or the *RED HERRING*).",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Undertaker (If in play)",
+        "text": "If a player was executed today, show their character token.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Butler (If in play)",
+        "text": "The Butler chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Spy (If in play)",
+        "text": "Show the Grimoire for as long as the Spy needs.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ]
+  }
 }

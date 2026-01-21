@@ -56,11 +56,6 @@ io.on("connection", (socket) => {
     socket.to(room).emit("user-joined", username);
   });
 
-  socket.on("host-message", (data) => {
-    const { room, message } = data;
-    io.to(room).emit("receive-info", message);
-  });
-
   socket.on("assign-role", (data) => {
     const { room, username, role, roleData } = data;
     const roomSockets = io.sockets.adapter.rooms.get(room);
@@ -77,6 +72,25 @@ io.on("connection", (socket) => {
 
   socket.on("reveal-roles", (room) => {
     io.to(room).emit("roles-revealed");
+  });
+
+  socket.on("kick-player", (data) => {
+    const { room, username } = data;
+    const roomSockets = io.sockets.adapter.rooms.get(room);
+    if (roomSockets) {
+      for (const socketId of roomSockets) {
+        const clientSocket = io.sockets.sockets.get(socketId);
+        if (clientSocket.username === username) {
+          clientSocket.emit("kicked");
+          clientSocket.disconnect(true);
+          if (roomUsernames.has(room)) {
+            roomUsernames.get(room).delete(username);
+          }
+          io.to(room).emit("user-left", username);
+          break;
+        }
+      }
+    }
   });
 
   socket.on("leave-room", (room) => {

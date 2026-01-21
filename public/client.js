@@ -21,8 +21,10 @@ let edition = null;
 let editionData = null;
 let selectedRoles = [];
 let assignedRoles = {};
+let positions = {};
 let nightOrder = [];
 let currentNightIndex = 0;
+let currentNight = 1;
 let revealed = false;
 let rolesRevealed = false;
 let currentUsernames = new Set();
@@ -35,8 +37,10 @@ function saveHostState() {
       edition,
       selectedRoles,
       assignedRoles,
+      positions,
       nightOrder,
       revealed,
+      currentNight,
     };
     localStorage.setItem(`botc-host-${currentRoom}`, JSON.stringify(state));
   }
@@ -50,8 +54,10 @@ function loadHostState(room) {
     edition = state.edition;
     selectedRoles = state.selectedRoles;
     assignedRoles = state.assignedRoles;
+    positions = state.positions || {};
     nightOrder = state.nightOrder;
     revealed = state.revealed || false;
+    currentNight = state.currentNight || 1;
     return true;
   }
   return false;
@@ -181,6 +187,11 @@ document.querySelectorAll("#characterSheetBtn").forEach((btn) => {
 document
   .getElementById("nightOrderBtn")
   .addEventListener("click", startNightOrder);
+document
+  .getElementById("changeNightBtn")
+  .addEventListener("click", changeNight);
+document.getElementById("changeRoleBtn").addEventListener("click", changeRole);
+document.getElementById("kickPlayerBtn").addEventListener("click", kickPlayer);
 document.getElementById("timerBtn").addEventListener("click", showTimer);
 document.querySelectorAll("#notesBtn").forEach((btn) => {
   btn.addEventListener("click", showNotes);
@@ -270,11 +281,6 @@ socket.on("reconnected-join", (data) => {
   loadNotes();
 });
 
-socket.on("receive-info", (message) => {
-  messages.innerHTML += `<p>Info: ${message}</p>`;
-  messages.scrollTop = messages.scrollHeight;
-});
-
 socket.on("user-joined", (username) => {
   currentUsernames.add(username);
   messages.innerHTML += `<p>${username} joined the room</p>`;
@@ -313,6 +319,18 @@ socket.on("roles-revealed", () => {
   rolesRevealed = true;
   const btn = document.getElementById("revealRolesBtn");
   if (btn) btn.style.display = "none";
+});
+
+socket.on("kicked", () => {
+  Swal.fire({
+    title: "You have been kicked",
+    text: "You have been removed from the room by the host.",
+    icon: "warning",
+    confirmButtonText: "OK",
+  }).then(() => {
+    window.history.replaceState(null, "", "/");
+    window.location.reload();
+  });
 });
 
 socket.on("join-error", (msg) => {
@@ -409,34 +427,60 @@ function showRoleCircle() {
 
   loadTokensToCircle();
 
-  const numRoles = selectedRoles.length;
+  const assignments = [];
+  selectedRoles.forEach((role) => {
+    const playersWithRole = Object.entries(assignedRoles).filter(
+      ([_, r]) => r.category === role.category && r.role === role.role,
+    );
+    if (playersWithRole.length === 0) {
+      assignments.push({ username: null, role });
+    } else {
+      playersWithRole.forEach(([username, r]) => {
+        assignments.push({ username, role: r });
+      });
+    }
+  });
+
+  const numRoles = assignments.length;
   const radius = 350;
   const centerX = 300;
   const centerY = 300;
 
-  selectedRoles.forEach((roleObj, index) => {
-    const angle = (index / numRoles) * 2 * Math.PI;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
+  assignments.forEach((assignment, index) => {
+    const posKey =
+      assignment.username ||
+      `unassigned-${assignment.role.category}-${assignment.role.role}-${assignments.indexOf(assignment)}`;
+    const savedPos = positions[posKey];
+    let x, y;
+    if (savedPos) {
+      x = savedPos.x;
+      y = savedPos.y;
+    } else {
+      const angle = (index / numRoles) * 2 * Math.PI;
+      x = centerX + radius * Math.cos(angle);
+      y = centerY + radius * Math.sin(angle);
+    }
 
     const roleDiv = document.createElement("div");
     roleDiv.className = "role-token circle-token";
+    if (assignment.username) {
+      roleDiv.dataset.username = assignment.username;
+    }
     roleDiv.style.left = `${x}px`;
     roleDiv.style.top = `${y}px`;
-    roleDiv.innerHTML = `
-      <img src="icons/${editionData.roles[roleObj.category][roleObj.role][0]}.svg" alt="${roleObj.role}" />
-      <div class="role-name">${roleObj.role}</div>
-    `;
-    roleDiv.title = editionData.roles[roleObj.category][roleObj.role][1];
-
-    const assignedUser = Object.keys(assignedRoles).find(
-      (u) => assignedRoles[u].role === roleObj.role,
-    );
-    if (assignedUser) {
-      roleDiv.innerHTML += `<div class="username">${assignedUser}</div>`;
+    let usernameHtml = "";
+    if (assignment.username) {
+      usernameHtml = `<div class="username">${assignment.username}</div>`;
     }
+    roleDiv.innerHTML = `
+      <img src="icons/${editionData.roles[assignment.role.category][assignment.role.role][0]}.svg" alt="${assignment.role.role}" />
+      <div class="role-name">${assignment.role.role}</div>
+      ${usernameHtml}
+    `;
+    roleDiv.title =
+      editionData.roles[assignment.role.category][assignment.role.role][1];
 
-    makeCircleTokenDraggable(roleDiv, roleObj);
+    makeCircleTokenDraggable(roleDiv, assignment.role);
 
     container.appendChild(roleDiv);
   });
@@ -465,31 +509,8 @@ function assignRoleToPlayer(username) {
     roleData,
   });
   if (document.getElementById("roleCircle").style.display === "block") {
-    updateCircle();
+    showRoleCircle();
   }
-}
-
-function updateCircle() {
-  const tokens = document.querySelectorAll(".circle-token");
-  tokens.forEach((token, index) => {
-    const roleObj = selectedRoles[index];
-    const assignedUser = Object.keys(assignedRoles).find(
-      (u) => assignedRoles[u].role === roleObj.role,
-    );
-    let usernameDiv = token.querySelector(".username");
-    if (assignedUser) {
-      if (!usernameDiv) {
-        usernameDiv = document.createElement("div");
-        usernameDiv.className = "username";
-        token.appendChild(usernameDiv);
-      }
-      usernameDiv.textContent = assignedUser;
-    } else {
-      if (usernameDiv) {
-        usernameDiv.remove();
-      }
-    }
-  });
 }
 
 function showCharacterSheet() {
@@ -535,6 +556,9 @@ function displayCharacterSheet() {
 }
 
 function startNightOrder() {
+  nightOrder =
+    editionData.nightorder[currentNight.toString()] ||
+    editionData.nightorder["*"];
   currentNightIndex = 0;
   showNightPhase();
 }
@@ -542,9 +566,17 @@ function startNightOrder() {
 function showNightPhase() {
   if (currentNightIndex >= nightOrder.length) {
     Swal.fire({
-      title: "Night Order Complete",
-      text: "All night phases have been completed.",
-      confirmButtonText: "OK",
+      title: `Night ${currentNight} Complete`,
+      text: `Start Night ${currentNight + 1}?`,
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        currentNight++;
+        saveHostState();
+        updateGlobalTimerDisplay();
+      }
     });
     return;
   }
@@ -716,7 +748,12 @@ function updateGlobalTimerDisplay() {
   if (display) {
     const minutes = Math.floor(timerSeconds / 60);
     const seconds = timerSeconds % 60;
-    display.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    const timeStr = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    if (isHost) {
+      display.textContent = `Night ${currentNight} | ${timeStr}`;
+    } else {
+      display.textContent = timeStr;
+    }
   }
 }
 
@@ -802,7 +839,19 @@ const tokenColors = [
 
 let draggedToken = null;
 
-function handleDrag(clientX, clientY, tokenElement, startX, startY, initialX, initialY, circleContainer, savedTokens, storageKey, selector) {
+function handleDrag(
+  clientX,
+  clientY,
+  tokenElement,
+  startX,
+  startY,
+  initialX,
+  initialY,
+  circleContainer,
+  savedTokens,
+  storageKey,
+  selector,
+) {
   const deltaX = clientX - startX;
   const deltaY = clientY - startY;
   const newX = Math.max(
@@ -992,13 +1041,37 @@ function makeTokenDraggable(tokenElement, savedTokens, storageKey) {
 
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
-    handleDrag(e.clientX, e.clientY, tokenElement, startX, startY, initialX, initialY, circleContainer, savedTokens, storageKey, ".mini-token");
+    handleDrag(
+      e.clientX,
+      e.clientY,
+      tokenElement,
+      startX,
+      startY,
+      initialX,
+      initialY,
+      circleContainer,
+      savedTokens,
+      storageKey,
+      ".mini-token",
+    );
   });
 
   document.addEventListener("touchmove", (e) => {
     if (!isDragging || e.touches.length !== 1) return;
     const touch = e.touches[0];
-    handleDrag(touch.clientX, touch.clientY, tokenElement, startX, startY, initialX, initialY, circleContainer, savedTokens, storageKey, ".mini-token");
+    handleDrag(
+      touch.clientX,
+      touch.clientY,
+      tokenElement,
+      startX,
+      startY,
+      initialX,
+      initialY,
+      circleContainer,
+      savedTokens,
+      storageKey,
+      ".mini-token",
+    );
     e.preventDefault();
   });
 
@@ -1023,6 +1096,7 @@ function makeCircleTokenDraggable(tokenElement, roleObj) {
   let startX, startY, initialX, initialY;
   const circleContainer = document.getElementById("circleContainer");
   const dragThreshold = 10;
+  const username = tokenElement.dataset.username;
 
   tokenElement.addEventListener("mousedown", (e) => {
     isDragging = true;
@@ -1033,7 +1107,7 @@ function makeCircleTokenDraggable(tokenElement, roleObj) {
     const containerRect = circleContainer.getBoundingClientRect();
     initialX = rect.left - containerRect.left;
     initialY = rect.top - containerRect.top;
-    tokenElement.style.zIndex = "1000";
+    tokenElement.style.zIndex = "9";
     e.preventDefault();
   });
 
@@ -1060,7 +1134,26 @@ function makeCircleTokenDraggable(tokenElement, roleObj) {
     if (Math.abs(deltaX) > dragThreshold || Math.abs(deltaY) > dragThreshold) {
       hasDragged = true;
     }
-    handleDrag(e.clientX, e.clientY, tokenElement, startX, startY, initialX, initialY, circleContainer, null, null, null);
+    const newX = Math.max(
+      0,
+      Math.min(
+        initialX + (e.clientX - startX),
+        circleContainer.clientWidth - tokenElement.clientWidth,
+      ),
+    );
+    const newY = Math.max(
+      0,
+      Math.min(
+        initialY + (e.clientY - startY),
+        circleContainer.clientHeight - tokenElement.clientHeight,
+      ),
+    );
+    tokenElement.style.left = `${newX}px`;
+    tokenElement.style.top = `${newY}px`;
+    if (username) {
+      positions[username] = { x: newX, y: newY };
+      saveHostState();
+    }
   });
 
   document.addEventListener("touchmove", (e) => {
@@ -1071,7 +1164,26 @@ function makeCircleTokenDraggable(tokenElement, roleObj) {
     if (Math.abs(deltaX) > dragThreshold || Math.abs(deltaY) > dragThreshold) {
       hasDragged = true;
     }
-    handleDrag(touch.clientX, touch.clientY, tokenElement, startX, startY, initialX, initialY, circleContainer, null, null, null);
+    const newX = Math.max(
+      0,
+      Math.min(
+        initialX + (touch.clientX - startX),
+        circleContainer.clientWidth - tokenElement.clientWidth,
+      ),
+    );
+    const newY = Math.max(
+      0,
+      Math.min(
+        initialY + (touch.clientY - startY),
+        circleContainer.clientHeight - tokenElement.clientHeight,
+      ),
+    );
+    tokenElement.style.left = `${newX}px`;
+    tokenElement.style.top = `${newY}px`;
+    if (username) {
+      positions[username] = { x: newX, y: newY };
+      saveHostState();
+    }
     e.preventDefault();
   });
 
@@ -1214,5 +1326,276 @@ function showFullScreenTokens(selectedRoleObjects) {
   overlay.querySelector(".fullscreen-close").addEventListener("click", () => {
     document.body.removeChild(overlay);
     showNightPhase();
+  });
+}
+
+function changeNight() {
+  Swal.fire({
+    title: "Change Night",
+    input: "number",
+    inputLabel: "Enter the night number",
+    inputValue: currentNight,
+    inputAttributes: {
+      min: 1,
+      step: 1,
+    },
+    showCancelButton: true,
+    confirmButtonText: "Set Night",
+    inputValidator: (value) => {
+      if (!value || value < 1) {
+        return "Please enter a valid night number";
+      }
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      currentNight = parseInt(result.value);
+      saveHostState();
+      updateGlobalTimerDisplay();
+      Swal.fire({
+        title: "Night Changed",
+        text: `Night set to ${currentNight}`,
+        confirmButtonText: "OK",
+      });
+    }
+  });
+}
+
+function changeRole() {
+  const usernames = Object.keys(assignedRoles);
+  if (usernames.length < 1) {
+    Swal.fire({
+      title: "No Players",
+      text: "No players to change roles for",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    return;
+  }
+
+  let selectedPlayer = null;
+  let newRole = null;
+
+  const html = `
+    <div class="change-role-container">
+      <p>Select a player to change their role:</p>
+      <div class="player-list">
+        ${usernames
+          .map(
+            (username) => `
+          <div class="change-player" data-username="${username}">
+            <div class="role-token player-token">
+              <img src="icons/${editionData.roles[assignedRoles[username].category][assignedRoles[username].role][0]}.svg" alt="${assignedRoles[username].role}" />
+              <div class="role-name">${assignedRoles[username].role}</div>
+            </div>
+            <div class="player-name">${username}</div>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>
+      <div class="role-selection" id="roleSelectionContainer" style="display: none;">
+        <p>Choose a new role for <span id="selectedPlayerName"></span>:</p>
+        <div class="role-grid">
+          ${Object.keys(editionData.roles)
+            .map(
+              (category) => `
+            <div class="category-section">
+              <h4>${category}</h4>
+              <div class="roles-grid">
+                ${Object.keys(editionData.roles[category])
+                  .map(
+                    (role) => `
+                  <div class="role-option" data-category="${category}" data-role="${role}">
+                    <img src="icons/${editionData.roles[category][role][0]}.svg" alt="${role}" />
+                    <div class="role-name">${role}</div>
+                  </div>
+                `,
+                  )
+                  .join("")}
+              </div>
+            </div>
+          `,
+            )
+            .join("")}
+        </div>
+      </div>
+      <div class="change-controls">
+        <button id="confirmChangeBtn" disabled>Change Role</button>
+        <button id="cancelChangeBtn">Cancel</button>
+      </div>
+    </div>
+  `;
+
+  Swal.fire({
+    title: "Change Role",
+    html: html,
+    width: "90%",
+    showConfirmButton: false,
+    didOpen: () => {
+      const players = document.querySelectorAll(".change-player");
+
+      players.forEach((player) => {
+        player.addEventListener("click", () => {
+          document
+            .querySelectorAll(".change-player")
+            .forEach((p) => p.classList.remove("selected"));
+          player.classList.add("selected");
+          selectedPlayer = player.dataset.username;
+          document.getElementById("selectedPlayerName").textContent =
+            selectedPlayer;
+          document.getElementById("roleSelectionContainer").style.display =
+            "block";
+          document.getElementById("confirmChangeBtn").disabled = true;
+        });
+      });
+
+      const roleOptions = document.querySelectorAll(".role-option");
+      roleOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          document
+            .querySelectorAll(".role-option")
+            .forEach((o) => o.classList.remove("selected"));
+          option.classList.add("selected");
+          newRole = {
+            category: option.dataset.category,
+            role: option.dataset.role,
+          };
+          document.getElementById("confirmChangeBtn").disabled = false;
+        });
+      });
+
+      document
+        .getElementById("confirmChangeBtn")
+        .addEventListener("click", () => {
+          if (selectedPlayer && newRole) {
+            assignedRoles[selectedPlayer] = newRole;
+
+            const roleKey = { category: newRole.category, role: newRole.role };
+            const exists = selectedRoles.some(
+              (r) => r.category === newRole.category && r.role === newRole.role,
+            );
+            if (!exists) {
+              selectedRoles.push(roleKey);
+            }
+
+            const roleData = editionData.roles[newRole.category][newRole.role];
+            socket.emit("assign-role", {
+              room: currentRoom,
+              username: selectedPlayer,
+              role: newRole,
+              roleData,
+            });
+
+            saveHostState();
+            if (
+              document.getElementById("roleCircle").style.display === "block"
+            ) {
+              showRoleCircle();
+            }
+            Swal.close();
+            Swal.fire({
+              title: "Role Changed",
+              text: `Changed ${selectedPlayer}'s role to ${newRole.role}`,
+              confirmButtonText: "OK",
+            });
+          }
+        });
+
+      document
+        .getElementById("cancelChangeBtn")
+        .addEventListener("click", () => {
+          Swal.close();
+        });
+    },
+  });
+}
+
+function kickPlayer() {
+  const usernames = Object.keys(assignedRoles);
+  if (usernames.length < 1) {
+    Swal.fire({
+      title: "No Players",
+      text: "No players to kick",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+    return;
+  }
+
+  let selectedPlayer = null;
+
+  const html = `
+    <div class="kick-player-container">
+      <p>Select a player to kick:</p>
+      <div class="player-list">
+        ${usernames
+          .map(
+            (username) => `
+          <div class="kick-player" data-username="${username}">
+            <div class="role-token player-token">
+              <img src="icons/${editionData.roles[assignedRoles[username].category][assignedRoles[username].role][0]}.svg" alt="${assignedRoles[username].role}" />
+              <div class="role-name">${assignedRoles[username].role}</div>
+            </div>
+            <div class="player-name">${username}</div>
+          </div>
+        `,
+          )
+          .join("")}
+      </div>
+      <div class="kick-controls">
+        <button id="confirmKickBtn" disabled>Kick Player</button>
+        <button id="cancelKickBtn">Cancel</button>
+      </div>
+    </div>
+  `;
+
+  Swal.fire({
+    title: "Kick Player",
+    html: html,
+    width: "90%",
+    showConfirmButton: false,
+    didOpen: () => {
+      const players = document.querySelectorAll(".kick-player");
+
+      players.forEach((player) => {
+        player.addEventListener("click", () => {
+          document
+            .querySelectorAll(".kick-player")
+            .forEach((p) => p.classList.remove("selected"));
+          player.classList.add("selected");
+          selectedPlayer = player.dataset.username;
+          document.getElementById("confirmKickBtn").disabled = false;
+        });
+      });
+
+      document
+        .getElementById("confirmKickBtn")
+        .addEventListener("click", () => {
+          if (selectedPlayer) {
+            socket.emit("kick-player", {
+              room: currentRoom,
+              username: selectedPlayer,
+            });
+            delete assignedRoles[selectedPlayer];
+            delete positions[selectedPlayer];
+            saveHostState();
+            if (
+              document.getElementById("roleCircle").style.display === "block"
+            ) {
+              showRoleCircle();
+            }
+            Swal.close();
+            Swal.fire({
+              title: "Player Kicked",
+              text: `${selectedPlayer} has been kicked from the room`,
+              confirmButtonText: "OK",
+            });
+          }
+        });
+
+      document.getElementById("cancelKickBtn").addEventListener("click", () => {
+        Swal.close();
+      });
+    },
   });
 }
