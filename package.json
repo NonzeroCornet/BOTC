@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node index.js",
-    "build": "terser public/client.js -o public/client.min.js --compress --mangle && cleancss public/styles.css -o public/styles.min.css"
+    "build": "terser public/client.js -o public/client.min.js --compress --mangle && cleancss public/styles.css -o public/styles.min.css && cleancss public/create.css -o public/create.min.css"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,503 @@
+{
+  "roles": {
+    "Townsfolk": {
+      "Farmer": ["wheat", "Each night, you learn if a calamity is in play."],
+      "Barkeep": [
+        "sake-bottle",
+        "Each day, you may pick a player. If they received information during the night, you might learn what it was. That player is poisoned tonight."
+      ],
+      "Guard": [
+        "spartan",
+        "Each night, learn if any evil players spoke in private that day."
+      ],
+      "Worry-Wort": [
+        "dread",
+        "Each night, you will learn something true. You do not know what it means until you die."
+      ],
+      "Blacksmith": [
+        "anvil",
+        "Each night, pick a player. They may choose to kill someone who nominates them."
+      ],
+      "Astronomer": [
+        "telescope",
+        "On night two, pick a player. They are no longer affected by calamities."
+      ],
+      "Cursed Child": [
+        "intricate-necklace",
+        "If you are executed, a calamity will occur during the night."
+      ],
+      "Villager": ["village", "You know nothing."],
+      "Robber": [
+        "cowled",
+        "Once per game, choose a player. You now have the same role, but are poisoned tomorrow night."
+      ],
+      "Maniac": [
+        "broken-skull",
+        "If you are executed by nomination on the last day, your team wins."
+      ],
+      "Gardener": ["trowel", "If you die, you know what killed you."],
+      "Priest": [
+        "black-book",
+        "You start knowing if one or both of two players are good."
+      ],
+      "Follower": [
+        "robe",
+        "Each night, pick a player. You believe anything they say. If you reveal who you followed, you will be executed immediately."
+      ],
+      "Village Chief": [
+        "wizard-staff",
+        "You start knowing how many outsiders there are."
+      ]
+    },
+    "Outsiders": {
+      "Reverend": [
+        "evil-book",
+        "You believe you are the demon. You are not. You may register as evil."
+      ],
+      "Mad Scientist": [
+        "fizzing-flask",
+        "Each day, ask the storyteller a question. They will tell you one player who might know the answer. You register as evil."
+      ],
+      "Stalker": [
+        "worried-eyes",
+        "Each night, pick a player. You learn if they were woken up in the night."
+      ],
+      "Nay-Sayer": [
+        "public-speaker",
+        "You are mad that you are a townsfolk. You think all players are good and will always defend them. If you break madness, you will be executed immediately."
+      ]
+    },
+    "Minions": {
+      "Doombringer": [
+        "ophanim",
+        "Each night, choose a calamity. This calamity may go into effect tomorrow night, lasting only one night, in secret."
+      ],
+      "Shapeshifter": [
+        "double-face-mask",
+        "Each night, pick a player. You also get their night information."
+      ],
+      "Gambler": [
+        "perspective-dice-six-faces-one",
+        "You do not know who the demon is, and the demon doesn't know you exist. If you nominate the demon and they are executed, the evil team wins. If you execute a good player, the good team wins. You must announce who you are before nominating."
+      ],
+      "Backstabber": [
+        "sacrificial-dagger",
+        "Once per game, if you are nominated but not executed, the nominee is executed immediately."
+      ]
+    },
+    "Demons": {
+      "Werewolf": [
+        "werewolf",
+        "Each night choose a player. If their ability lets them choose a player, any good players chosen will die. Otherwise, they will die."
+      ],
+      "Zombie": [
+        "raise-zombie",
+        "Each night, pick a player. If they are the Villager, your team loses. Otherwise, they die."
+      ],
+      "Mind Flayer": [
+        "tentacles-skull",
+        "Each night, pick a player. They are now evil. They will die tomorrow night. [-2 Minions, +2 Outsiders]"
+      ],
+      "Plague": [
+        "smoking-orb",
+        "Each night, pick a player. They are now the Plague, and you have died."
+      ]
+    }
+  },
+  "nightorder": {
+    "1": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Minion Info",
+        "text": "If there are 7 or more players, wake all Minions except for the Gambler: Show the *THIS IS THE DEMON* token. Point to the Demon.",
+        "messages": ["THIS IS THE DEMON"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Demon Info",
+        "text": "If there are 7 or more players, wake the Demon: Show the *THESE ARE YOUR MINIONS* token. Point to all Minions except for the Gambler. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
+        "messages": [
+          "THESE ARE YOUR MINIONS",
+          "THESE CHARACTERS ARE NOT IN PLAY"
+        ],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Priest (If in play)",
+        "text": "Point to two players.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Village Chief (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Doombringer (If in play)",
+        "text": "The Doombringer chooses a calamity (see \"Additional Information\".",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Werewolf (If in play)",
+        "text": "The Werewolf chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Zombie (If in play)",
+        "text": "The Zombie chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Mind Flayer (If in play)",
+        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE NOW EVIL* token.",
+        "messages": ["YOU ARE NOW EVIL"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Plague (If in play)",
+        "text": "The Plague chooses a player. Kill the Plague",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Shapeshifter (If in play)",
+        "text": "The Shapeshifter chooses a player. Give the Shapeshifter the chosen players information also.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Blacksmith (If in play)",
+        "text": "The Blacksmith chooses a player. Put the Blacksmith to sleep. Wake the chosen player. Show the *YOU HAVE BEEN CHOSEN BY THE BLACKSMITH* token.",
+        "messages": ["YOU HAVE BEEN CHOSEN BY THE BLACKSMITH"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Robber (If in play)",
+        "text": "The Robber may choose a player. If they do so, show the chosen players token. Change the Robber's role the same role as the chosen player.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Follower (If in play)",
+        "text": "The Follower chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Guard (If in play)",
+        "text": "Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Farmer (If in play)",
+        "text": "Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Worry-Wort (If in play)",
+        "text": "Give a signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Stalker (If in play)",
+        "text": "The Stalker chooses a player. Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Worry-Wort Daytime (If in play)",
+        "text": "If the Worry-Wort died, tell them what their information was.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ],
+    "2": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Calamity",
+        "text": "Consider any possible Calamities that may befall the night before continuing.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Astronomer (If in play)",
+        "text": "The Astronomer chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Doombringer (If in play)",
+        "text": "The Doombringer chooses a calamity (see \"Additional Information\".",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Werewolf (If in play)",
+        "text": "The Werewolf chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Zombie (If in play)",
+        "text": "The Zombie chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Mind Flayer (If in play)",
+        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE NOW EVIL* token. Kill the previously chosen player.",
+        "messages": ["YOU ARE NOW EVIL"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Plague (If in play)",
+        "text": "The Plague chooses a player. Kill the Plague",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Shapeshifter (If in play)",
+        "text": "The Shapeshifter chooses a player. Give the Shapeshifter the chosen players information also.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Blacksmith (If in play)",
+        "text": "The Blacksmith chooses a player. Put the Blacksmith to sleep. Wake the chosen player. Show the *YOU HAVE BEEN CHOSEN BY THE BLACKSMITH* token.",
+        "messages": ["YOU HAVE BEEN CHOSEN BY THE BLACKSMITH"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Robber (If in play)",
+        "text": "The Robber may choose a player. If they do so, show the chosen players token. Change the Robber's role the same role as the chosen player.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Follower (If in play)",
+        "text": "The Follower chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Guard (If in play)",
+        "text": "Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Farmer (If in play)",
+        "text": "Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Worry-Wort (If in play)",
+        "text": "Give a signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Stalker (If in play)",
+        "text": "The Stalker chooses a player. Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Worry-Wort Daytime (If in play)",
+        "text": "If the Worry-Wort died, tell them what their information was.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ],
+    "*": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Calamity",
+        "text": "Consider any possible Calamities that may befall the night before continuing.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Doombringer (If in play)",
+        "text": "The Doombringer chooses a calamity (see \"Additional Information\".",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Werewolf (If in play)",
+        "text": "The Werewolf chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Zombie (If in play)",
+        "text": "The Zombie chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Mind Flayer (If in play)",
+        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE NOW EVIL* token. Kill the previously chosen player.",
+        "messages": ["YOU ARE NOW EVIL"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Plague (If in play)",
+        "text": "The Plague chooses a player. Kill the Plague",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Shapeshifter (If in play)",
+        "text": "The Shapeshifter chooses a player. Give the Shapeshifter the chosen players information also.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Blacksmith (If in play)",
+        "text": "The Blacksmith chooses a player. Put the Blacksmith to sleep. Wake the chosen player. Show the *YOU HAVE BEEN CHOSEN BY THE BLACKSMITH* token.",
+        "messages": ["YOU HAVE BEEN CHOSEN BY THE BLACKSMITH"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Robber (If in play)",
+        "text": "The Robber may choose a player. If they do so, show the chosen players token. Change the Robber's role the same role as the chosen player.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Follower (If in play)",
+        "text": "The Follower chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Guard (If in play)",
+        "text": "Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Farmer (If in play)",
+        "text": "Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Worry-Wort (If in play)",
+        "text": "Give a signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Stalker (If in play)",
+        "text": "The Stalker chooses a player. Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Worry-Wort Daytime (If in play)",
+        "text": "If the Worry-Wort died, tell them what their information was.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ]
+  },
+  "info": "Calamities<br><br><br>Drunk Party - All good players receive faulty information.<br><br>Storm - Player information is skipped.<br><br>Mandela Effect - Player information is presented the same as the night before.<br><br>False Flag - One good player registers as evil to all abilities tonight.<br><br>Mob - A random player is on the chopping block. No one knows who.<br><br>Drought - If there are no nominations today, someone random will be executed.<br><br>Telephone - Information is given to the wrong players, but is otherwise true.<br><br><br>Speaking with the Storyteller does not count as speaking in private<br><br>* Not the First Night",
+  "rolecount": {
+    "Townsfolk": {
+      "5": 3,
+      "6": 3,
+      "7": 5,
+      "8": 5,
+      "9": 5,
+      "10": 7,
+      "11": 7,
+      "12": 7,
+      "13": 9,
+      "14": 9,
+      "15": 9
+    },
+    "Outsiders": {
+      "5": 0,
+      "6": 1,
+      "7": 0,
+      "8": 1,
+      "9": 2,
+      "10": 0,
+      "11": 1,
+      "12": 2,
+      "13": 0,
+      "14": 1,
+      "15": 2
+    },
+    "Minions": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 2,
+      "11": 2,
+      "12": 2,
+      "13": 3,
+      "14": 3,
+      "15": 3
+    },
+    "Demons": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1
+    }
+  }
+}

@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Create custom Blood on the Clocktower editions"
+    />
+    <title>Create BOTC Edition</title>
+    <link rel="icon" href="icons/bookmarklet.svg" />
+    <link rel="stylesheet" href="styles.min.css" />
+    <link rel="stylesheet" href="create.min.css" />
+    <link rel="stylesheet" href="sweetalert2.min.css" />
+  </head>
+  <body>
+    <main>
+      <a href="/" style="font-size: small; color: orange; margin: 10px"
+        >&larr; Back to Home</a
+      >
+      <h1>Create Custom Edition</h1>
+
+      <div id="editionForm">
+        <div class="form-section">
+          <h2>Edition Name</h2>
+          <input
+            type="text"
+            id="editionName"
+            placeholder="Enter edition name"
+          />
+        </div>
+
+        <div class="form-section">
+          <h2>Roles</h2>
+          <p class="help-text">
+            Find icon names at
+            <a href="https://game-icons.net/search.html" target="_blank"
+              >game-icons.net</a
+            >
+          </p>
+          <div id="rolesContainer">
+            <div class="role-category" data-category="Townsfolk">
+              <h3>Townsfolk</h3>
+              <div class="roles-list" id="townsfolkRoles"></div>
+              <button class="add-role-btn" data-category="Townsfolk">
+                Add Townsfolk Role
+              </button>
+            </div>
+
+            <div class="role-category" data-category="Outsiders">
+              <h3>Outsiders</h3>
+              <div class="roles-list" id="outsidersRoles"></div>
+              <button class="add-role-btn" data-category="Outsiders">
+                Add Outsider Role
+              </button>
+            </div>
+
+            <div class="role-category" data-category="Minions">
+              <h3>Minions</h3>
+              <div class="roles-list" id="minionsRoles"></div>
+              <button class="add-role-btn" data-category="Minions">
+                Add Minion Role
+              </button>
+            </div>
+
+            <div class="role-category" data-category="Demons">
+              <h3>Demons</h3>
+              <div class="roles-list" id="demonsRoles"></div>
+              <button class="add-role-btn" data-category="Demons">
+                Add Demon Role
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Night Order</h2>
+          <div id="nightOrderContainer">
+            <div class="night-section" data-night="1">
+              <h3>Night 1</h3>
+              <div class="night-items" id="night1Items"></div>
+              <button class="add-night-item-btn" data-night="1">
+                Add Night 1 Item
+              </button>
+            </div>
+
+            <div class="night-section" data-night="*">
+              <h3>All Other Nights</h3>
+              <div class="night-items" id="nightAllItems"></div>
+              <button class="add-night-item-btn" data-night="*">
+                Add Night Item
+              </button>
+            </div>
+
+            <div class="custom-nights" id="customNightsContainer">
+              <h3>Custom Nights</h3>
+              <div id="customNightsList"></div>
+              <button id="addCustomNightBtn" class="add-night-item-btn">
+                Add Custom Night
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>Additional Information</h2>
+          <textarea
+            id="editionInfo"
+            placeholder="Enter additional information (HTML allowed)"
+          ></textarea>
+        </div>
+
+        <div class="form-section">
+          <h2>Role Counts</h2>
+          <div id="roleCountsContainer">
+            <table id="roleCountsTable">
+              <thead>
+                <tr>
+                  <th id="players-header">Players</th>
+                  <th id="townsfolk-header">Townsfolk</th>
+                  <th id="outsiders-header">Outsiders</th>
+                  <th id="minions-header">Minions</th>
+                  <th id="demons-header">Demons</th>
+                </tr>
+              </thead>
+              <tbody id="roleCountsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button id="generateBtn">Generate & Download JSON</button>
+          <button id="loadBtn">Load Existing Edition</button>
+        </div>
+      </div>
+    </main>
+
+    <script src="sweetalert2.all.min.js"></script>
+    <script>
+      // Role template
+      const roleTemplate = `
+        <div class="role-item">
+          <input type="text" class="role-name" placeholder="Role name" />
+          <input type="text" class="role-icon" placeholder="Icon name" />
+          <textarea class="role-description" placeholder="Role description"></textarea>
+          <button class="remove-role-btn">Remove</button>
+        </div>
+      `;
+
+      // Night item template
+      const nightItemTemplate = `
+        <div class="night-item">
+          <input type="text" class="night-title" placeholder="Title" />
+          <textarea class="night-text" placeholder="Text"></textarea>
+          <div class="night-messages">
+            <input type="text" class="night-message" placeholder="Message (optional)" />
+            <button class="add-message-btn">Add Message</button>
+          </div>
+          <label><input type="checkbox" class="token-presenter" /> Token Presenter</label>
+          <button class="remove-night-item-btn">Remove</button>
+        </div>
+      `;
+
+      // Initialize role counts table with defaults
+      function initializeRoleCounts() {
+        const tbody = document.getElementById("roleCountsBody");
+        const defaults = {
+          5: { townsfolk: 3, outsiders: 0, minions: 1, demons: 1 },
+          6: { townsfolk: 3, outsiders: 1, minions: 1, demons: 1 },
+          7: { townsfolk: 5, outsiders: 0, minions: 1, demons: 1 },
+          8: { townsfolk: 5, outsiders: 1, minions: 1, demons: 1 },
+          9: { townsfolk: 5, outsiders: 2, minions: 1, demons: 1 },
+          10: { townsfolk: 7, outsiders: 0, minions: 2, demons: 1 },
+          11: { townsfolk: 7, outsiders: 1, minions: 2, demons: 1 },
+          12: { townsfolk: 7, outsiders: 2, minions: 2, demons: 1 },
+          13: { townsfolk: 9, outsiders: 0, minions: 3, demons: 1 },
+          14: { townsfolk: 9, outsiders: 1, minions: 3, demons: 1 },
+          15: { townsfolk: 9, outsiders: 2, minions: 3, demons: 1 },
+        };
+
+        for (let players = 5; players <= 15; players++) {
+          const row = document.createElement("tr");
+          const def = defaults[players];
+          row.innerHTML = `
+            <td>${players}</td>
+            <td><input type="number" class="role-count townsfolk-count" min="0" value="${def.townsfolk}" aria-labelledby="townsfolk-header" /></td>
+            <td><input type="number" class="role-count outsiders-count" min="0" value="${def.outsiders}" aria-labelledby="outsiders-header" /></td>
+            <td><input type="number" class="role-count minions-count" min="0" value="${def.minions}" aria-labelledby="minions-header" /></td>
+            <td><input type="number" class="role-count demons-count" min="0" value="${def.demons}" aria-labelledby="demons-header" /></td>
+          `;
+          tbody.appendChild(row);
+        }
+      }
+
+      // Format icon name automatically
+      function formatIconName(input) {
+        let value = input.value;
+        // Convert numbers to words
+        value = value.replace(/1/g, "one");
+        value = value.replace(/2/g, "two");
+        value = value.replace(/3/g, "three");
+        value = value.replace(/4/g, "four");
+        value = value.replace(/5/g, "five");
+        value = value.replace(/6/g, "six");
+        value = value.replace(/7/g, "seven");
+        value = value.replace(/8/g, "eight");
+        value = value.replace(/9/g, "nine");
+        value = value.replace(/0/g, "zero");
+        // Replace spaces with dashes and remove capitals
+        value = value.toLowerCase().replace(/\s+/g, "-");
+        input.value = value;
+      }
+
+      // Add role to category
+      function addRole(category) {
+        const container = document.getElementById(
+          category.toLowerCase() + "Roles",
+        );
+        const roleDiv = document.createElement("div");
+        roleDiv.innerHTML = roleTemplate;
+        container.appendChild(roleDiv);
+
+        // Add icon name formatting listener
+        const iconInput = roleDiv.querySelector(".role-icon");
+        iconInput.addEventListener("input", () => {
+          formatIconName(iconInput);
+        });
+
+        // Add remove event listener
+        roleDiv
+          .querySelector(".remove-role-btn")
+          .addEventListener("click", () => {
+            container.removeChild(roleDiv);
+          });
+      }
+
+      // Add night item to night
+      function addNightItem(night) {
+        const container = document.getElementById(
+          "night" + (night === "*" ? "All" : night) + "Items",
+        );
+        const itemDiv = document.createElement("div");
+        itemDiv.innerHTML = nightItemTemplate;
+        container.appendChild(itemDiv);
+
+        // Add message functionality
+        const addMessageBtn = itemDiv.querySelector(".add-message-btn");
+        const messagesDiv = itemDiv.querySelector(".night-messages");
+
+        addMessageBtn.addEventListener("click", () => {
+          const messageInput = document.createElement("input");
+          messageInput.type = "text";
+          messageInput.className = "night-message";
+          messageInput.placeholder = "Message (optional)";
+          messagesDiv.insertBefore(messageInput, addMessageBtn);
+        });
+
+        // Add remove event listener
+        itemDiv
+          .querySelector(".remove-night-item-btn")
+          .addEventListener("click", () => {
+            container.removeChild(itemDiv);
+          });
+      }
+
+      // Helper functions for HTML entity encoding/decoding
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function unescapeHtml(html) {
+        const div = document.createElement("div");
+        div.innerHTML = html;
+        return div.textContent || div.innerText || "";
+      }
+
+      // Generate JSON from form
+      function generateJSON() {
+        const edition = {
+          roles: {
+            Townsfolk: {},
+            Outsiders: {},
+            Minions: {},
+            Demons: {},
+          },
+          nightorder: {
+            1: [],
+            "*": [],
+          },
+          info: escapeHtml(
+            document.getElementById("editionInfo").value.replace(/\n/g, "<br>"),
+          ),
+          rolecount: {
+            Townsfolk: {},
+            Outsiders: {},
+            Minions: {},
+            Demons: {},
+          },
+        };
+
+        // Collect roles
+        ["Townsfolk", "Outsiders", "Minions", "Demons"].forEach((category) => {
+          const container = document.getElementById(
+            category.toLowerCase() + "Roles",
+          );
+          const roleItems = container.querySelectorAll(".role-item");
+          roleItems.forEach((item) => {
+            const name = item.querySelector(".role-name").value.trim();
+            const icon = item.querySelector(".role-icon").value.trim();
+            const desc = item.querySelector(".role-description").value.trim();
+            if (name && icon && desc) {
+              edition.roles[category][name] = [icon, desc];
+            }
+          });
+        });
+
+        // Collect night order
+        ["1", "*"].forEach((night) => {
+          const container = document.getElementById(
+            "night" + (night === "*" ? "All" : night) + "Items",
+          );
+          const items = container.querySelectorAll(".night-item");
+          items.forEach((item) => {
+            const title = item.querySelector(".night-title").value.trim();
+            const text = item.querySelector(".night-text").value.trim();
+            const messages = Array.from(item.querySelectorAll(".night-message"))
+              .map((input) => input.value.trim())
+              .filter((msg) => msg);
+            const tokenpresenter =
+              item.querySelector(".token-presenter").checked;
+
+            if (title && text) {
+              edition.nightorder[night].push({
+                title,
+                text,
+                messages,
+                tokenpresenter,
+              });
+            }
+          });
+        });
+
+        // Collect custom night orders
+        const customNights = document.querySelectorAll(
+          "#customNightsList .night-section",
+        );
+        customNights.forEach((nightSection) => {
+          const nightNumber = nightSection.dataset.night;
+          const container = document.getElementById(`night${nightNumber}Items`);
+          const items = container.querySelectorAll(".night-item");
+          edition.nightorder[nightNumber] = [];
+          items.forEach((item) => {
+            const title = item.querySelector(".night-title").value.trim();
+            const text = item.querySelector(".night-text").value.trim();
+            const messages = Array.from(item.querySelectorAll(".night-message"))
+              .map((input) => input.value.trim())
+              .filter((msg) => msg);
+            const tokenpresenter =
+              item.querySelector(".token-presenter").checked;
+
+            if (title && text) {
+              edition.nightorder[nightNumber].push({
+                title,
+                text,
+                messages,
+                tokenpresenter,
+              });
+            }
+          });
+        });
+
+        // Collect role counts
+        const countRows = document.querySelectorAll("#roleCountsBody tr");
+        countRows.forEach((row, index) => {
+          const players = 5 + index;
+          const townsfolk =
+            parseInt(row.querySelector(".townsfolk-count").value) || 0;
+          const outsiders =
+            parseInt(row.querySelector(".outsiders-count").value) || 0;
+          const minions =
+            parseInt(row.querySelector(".minions-count").value) || 0;
+          const demons =
+            parseInt(row.querySelector(".demons-count").value) || 0;
+
+          edition.rolecount.Townsfolk[players] = townsfolk;
+          edition.rolecount.Outsiders[players] = outsiders;
+          edition.rolecount.Minions[players] = minions;
+          edition.rolecount.Demons[players] = demons;
+        });
+
+        return edition;
+      }
+
+      // Download JSON
+      function downloadJSON(edition) {
+        const dataStr = JSON.stringify(edition, null, 2);
+        const dataBlob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement("a");
+        link.href = url;
+        const filename =
+          document.getElementById("editionName").value.trim() || "edition";
+        link.download =
+          filename.toLowerCase().replace(/[^a-z0-9]/g, "") + ".json";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
+
+      // Load existing edition
+      function loadEdition() {
+        Swal.fire({
+          title: "Load Edition",
+          input: "select",
+          inputOptions: {
+            troublebrewing: "Trouble Brewing",
+            punchy: "Punchy",
+            paranoia: "Paranoia",
+          },
+          showCancelButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`/editions/${result.value}.json`)
+              .then((response) => response.json())
+              .then((data) => loadEditionData(data));
+          }
+        });
+      }
+
+      // Load edition data into form
+      function loadEditionData(data) {
+        // Clear existing data
+        ["Townsfolk", "Outsiders", "Minions", "Demons"].forEach((category) => {
+          const container = document.getElementById(
+            category.toLowerCase() + "Roles",
+          );
+          container.innerHTML = "";
+        });
+
+        ["1", "*"].forEach((night) => {
+          const container = document.getElementById(
+            "night" + (night === "*" ? "All" : night) + "Items",
+          );
+          container.innerHTML = "";
+        });
+
+        // Load roles
+        Object.keys(data.roles).forEach((category) => {
+          Object.keys(data.roles[category]).forEach((roleName) => {
+            const roleData = data.roles[category][roleName];
+            addRole(category);
+            const container = document.getElementById(
+              category.toLowerCase() + "Roles",
+            );
+            const lastRole = container.lastElementChild;
+            lastRole.querySelector(".role-name").value = roleName;
+            lastRole.querySelector(".role-icon").value = roleData[0];
+            lastRole.querySelector(".role-description").value = roleData[1];
+          });
+        });
+
+        // Load night order
+        Object.keys(data.nightorder).forEach((night) => {
+          // Skip default nights for now, handle them separately
+          if (["1", "*"].includes(night)) {
+            data.nightorder[night].forEach((item) => {
+              addNightItem(night);
+              const container = document.getElementById(
+                "night" + (night === "*" ? "All" : night) + "Items",
+              );
+              const lastItem = container.lastElementChild;
+              lastItem.querySelector(".night-title").value = item.title;
+              lastItem.querySelector(".night-text").value = item.text;
+              lastItem.querySelector(".token-presenter").checked =
+                item.tokenpresenter;
+
+              // Load messages
+              item.messages.forEach((message) => {
+                const messagesDiv = lastItem.querySelector(".night-messages");
+                const messageInput = document.createElement("input");
+                messageInput.type = "text";
+                messageInput.className = "night-message";
+                messageInput.value = message;
+                messagesDiv.insertBefore(
+                  messageInput,
+                  messagesDiv.querySelector(".add-message-btn"),
+                );
+              });
+            });
+          } else {
+            // Handle custom nights
+            addCustomNight(night);
+            data.nightorder[night].forEach((item) => {
+              addNightItem(night);
+              const container = document.getElementById(
+                "night" + night + "Items",
+              );
+              const lastItem = container.lastElementChild;
+              lastItem.querySelector(".night-title").value = item.title;
+              lastItem.querySelector(".night-text").value = item.text;
+              lastItem.querySelector(".token-presenter").checked =
+                item.tokenpresenter;
+
+              // Load messages
+              item.messages.forEach((message) => {
+                const messagesDiv = lastItem.querySelector(".night-messages");
+                const messageInput = document.createElement("input");
+                messageInput.type = "text";
+                messageInput.className = "night-message";
+                messageInput.value = message;
+                messagesDiv.insertBefore(
+                  messageInput,
+                  messagesDiv.querySelector(".add-message-btn"),
+                );
+              });
+            });
+          }
+        });
+
+        // Load info - convert <br> back to newlines and unescape HTML entities
+        document.getElementById("editionInfo").value = unescapeHtml(
+          (data.info || "").replace(/<br>/g, "\n"),
+        );
+
+        // Load role counts
+        const countRows = document.querySelectorAll("#roleCountsBody tr");
+        countRows.forEach((row, index) => {
+          const players = 5 + index;
+          row.querySelector(".townsfolk-count").value =
+            data.rolecount.Townsfolk[players] || 0;
+          row.querySelector(".outsiders-count").value =
+            data.rolecount.Outsiders[players] || 0;
+          row.querySelector(".minions-count").value =
+            data.rolecount.Minions[players] || 0;
+          row.querySelector(".demons-count").value =
+            data.rolecount.Demons[players] || 0;
+        });
+      }
+
+      // Add custom night
+      function addCustomNight(nightNumber) {
+        const container = document.getElementById("customNightsList");
+        const nightDiv = document.createElement("div");
+        nightDiv.className = "night-section";
+        nightDiv.dataset.night = nightNumber;
+        nightDiv.innerHTML = `
+          <h3>Night ${nightNumber} <button class="remove-custom-night-btn" data-night="${nightNumber}">Remove</button></h3>
+          <div class="night-items" id="night${nightNumber}Items"></div>
+          <button class="add-night-item-btn" data-night="${nightNumber}">Add Night ${nightNumber} Item</button>
+        `;
+        container.appendChild(nightDiv);
+
+        // Add remove event listener for the custom night
+        nightDiv
+          .querySelector(".remove-custom-night-btn")
+          .addEventListener("click", () => {
+            container.removeChild(nightDiv);
+          });
+
+        // Add night item button event listener
+        nightDiv
+          .querySelector(".add-night-item-btn")
+          .addEventListener("click", () => {
+            addNightItem(nightNumber);
+          });
+      }
+
+      // Event listeners
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeRoleCounts();
+
+        // Set default additional information
+        document.getElementById("editionInfo").value = "* Not on Night One";
+
+        // Add role buttons
+        document.querySelectorAll(".add-role-btn").forEach((btn) => {
+          btn.addEventListener("click", () => addRole(btn.dataset.category));
+        });
+
+        // Add night item buttons
+        document.querySelectorAll(".add-night-item-btn").forEach((btn) => {
+          btn.addEventListener("click", () => addNightItem(btn.dataset.night));
+        });
+
+        // Add custom night button
+        document
+          .getElementById("addCustomNightBtn")
+          .addEventListener("click", () => {
+            Swal.fire({
+              title: "Add Custom Night",
+              input: "number",
+              inputLabel: "Enter night number (e.g., 2)",
+              inputAttributes: {
+                min: 2,
+                step: 1,
+              },
+              showCancelButton: true,
+              confirmButtonText: "Add Night",
+              inputValidator: (value) => {
+                if (!value || value < 2) {
+                  return "Please enter a night number greater than 1";
+                }
+                const existingNights = Array.from(
+                  document.querySelectorAll("#customNightsList .night-section"),
+                ).map((section) => parseInt(section.dataset.night));
+                if (existingNights.includes(parseInt(value))) {
+                  return "This night number already exists";
+                }
+              },
+            }).then((result) => {
+              if (result.isConfirmed) {
+                addCustomNight(result.value);
+              }
+            });
+          });
+
+        // Generate button
+        document.getElementById("generateBtn").addEventListener("click", () => {
+          const edition = generateJSON();
+          downloadJSON(edition);
+        });
+
+        // Load button
+        document
+          .getElementById("loadBtn")
+          .addEventListener("click", loadEdition);
+      });
+    </script>
+  </body>
+</html>

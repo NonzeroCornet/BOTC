@@ -499,7 +499,9 @@ input[type="text"]:focus {
 #nextPhaseBtn,
 #closeNightOrderBtn,
 #selectTokensBtn,
-#showSelectedTokensBtn {
+#showSelectedTokensBtn,
+#showAllTokensBtn,
+#cancelTokenSelectionBtn {
   margin: 1rem;
   padding: 1rem 2rem;
   border: none;
@@ -1129,108 +1131,4 @@ input[type="text"]:focus {
   background: #d68910;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 768px) {
-  html {
-    zoom: 0.8;
-  }
-
-  #initial {
-    padding: 1rem;
-  }
-
-  #initial > div {
-    min-width: 250px;
-  }
-
-  .roles {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  }
-
-  .role-token {
-    width: 110px;
-    height: 110px;
-  }
-
-  .circle-token {
-    width: 90px;
-    height: 90px;
-  }
-
-  .token-selection-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 0.5rem;
-  }
-
-  .selectable-token {
-    min-height: 100px;
-    padding: 0.5rem;
-  }
-
-  .selectable-token img {
-    width: 50px;
-    height: 50px;
-  }
-
-  .selectable-token-name {
-    font-size: 0.8rem;
-  }
-
-  .token-selection-controls {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .fullscreen-content {
-    zoom: 0.75;
-  }
-
-  .fullscreen-text {
-    font-size: 2rem;
-  }
-
-  .fullscreen-token img {
-    width: 75px !important;
-    height: 75px !important;
-  }
-
-  .fullscreen-token div {
-    font-size: 1rem !important;
-  }
-
-  .fullscreen-token {
-    padding: 1rem !important;
-  }
-
-  .timer-display {
-    font-size: 2rem;
-    padding: 0.8rem 1.5rem;
-  }
-
-  .timer-controls {
-    gap: 0.3rem;
-  }
-
-  .timer-controls input {
-    width: 60px;
-  }
-
-  .token-palette {
-    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
-  }
-
-  .color-token {
-    width: 35px;
-    height: 35px;
-  }
-
-  .token-workspace {
-    height: 300px;
-  }
-
-  .mini-token {
-    width: 25px;
-    height: 25px;
-  }
 }

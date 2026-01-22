@@ -7,7 +7,7 @@
       name="description"
       content="Blood on the Clocktower - A social deduction game interface for hosting and joining rooms, selecting roles, and managing gameplay."
     />
-    <title>BOTC</title>
+    <title>BOTC Game Manager</title>
     <link rel="icon" href="icons/bookmarklet.svg" />
     <link rel="stylesheet" href="styles.min.css" />
     <link rel="stylesheet" href="sweetalert2.min.css" />
@@ -78,6 +78,23 @@
       </div>
       <div id="messages"></div>
     </main>
+
+    <footer
+      id="footer"
+      style="
+        position: fixed;
+        bottom: 10px;
+        width: 100%;
+        text-align: center;
+        font-size: small;
+        color: gray;
+      "
+    >
+      <a href="/create.html" style="color: orange; text-decoration: none"
+        >Create An Edition</a
+      ><br />
+      A Blood On The Clocktower Game Manager By Brian Dean Ullery 2026
+    </footer>
 
     <script src="sweetalert2.all.min.js"></script>
     <script src="/socket.io/socket.io.min.js"></script>

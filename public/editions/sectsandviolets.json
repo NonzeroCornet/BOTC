@@ -1,0 +1,380 @@
+{
+  "roles": {
+    "Townsfolk": {
+      "Clockmaker": [
+        "clockwork",
+        "You start knowing how many steps from the Demon to its nearest Minion."
+      ],
+      "Flowergirl": [
+        "flower-pot",
+        "Each night*, you learn if a Demon voted today."
+      ],
+      "Seamstress": [
+        "scissors",
+        "Once per game, at night, choose 2 players (not yourself): you learn if they are the same alignment."
+      ],
+      "Sage": [
+        "candle-holder",
+        "If the Demon kills you, you learn that it is 1 of 2 players."
+      ],
+      "Dreamer": [
+        "waves",
+        "Each night, choose a player (not yourself or Travellers): you learn 1 good & 1 evil character, 1 of which is correct."
+      ],
+      "Town Crier": [
+        "carillon",
+        "Each night*, you learn if a Minion nominated today."
+      ],
+      "Philosopher": [
+        "smoking-pipe",
+        "Once per game, at night, choose a good character: gain that ability. If this character is in play, they are drunk."
+      ],
+      "Snake Charmer": [
+        "snake",
+        "Each night, choose an alive player: a chosen Demon swaps characters & alignments with you & is then poisoned."
+      ],
+      "Oracle": [
+        "eye-of-horus",
+        "Each night*, you learn how many dead players are evil."
+      ],
+      "Artist": [
+        "large-paint-brush",
+        "Once per game, during the day, privately ask the Storyteller any yes/no question."
+      ],
+      "Mathematician": [
+        "moebius-triangle",
+        "Each night, you learn how many players' abilities worked abnormally (since dawn) due to another character's ability."
+      ],
+      "Savant": [
+        "rocking-chair",
+        "Each day, you may visit the Storyteller to learn 2 things in private: 1 is true & 1 is false."
+      ],
+      "Juggler": [
+        "juggling-clubs",
+        "On your 1st day, publicly guess up to 5 players' characters. That night, you learn how many you got correct."
+      ]
+    },
+    "Outsiders": {
+      "Mutant": [
+        "medieval-pavilion",
+        "If you are “mad” about being an Outsider, you might be executed."
+      ],
+      "Sweetheart": [
+        "bow-tie-ribbon",
+        "When you die, 1 player is drunk from now on."
+      ],
+      "Barber": [
+        "hair-strands",
+        "If you died today or tonight, the Demon may choose 2 players (not another Demon) to swap characters."
+      ],
+      "Klutz": [
+        "banana-peel",
+        "When you learn that you died, publicly choose 1 alive player: if they are evil, your team loses."
+      ]
+    },
+    "Minions": {
+      "Evil Twin": [
+        "duality",
+        "You & an opposing player know each other. If the good player is executed, evil wins. Good can't win if you both live."
+      ],
+      "Witch": [
+        "pointy-hat",
+        "Each night, choose a player: if they nominate tomorrow, they die. If just 3 players live, you lose this ability."
+      ],
+      "Cerenovus": [
+        "brain",
+        "Each night, choose a player & a good character: they are “mad” they are this character tomorrow, or might be executed."
+      ],
+      "Pit-Hag": [
+        "cauldron",
+        "Each night*, choose a player & a character they become (if not in play). If a Demon is made, deaths tonight are arbitrary."
+      ]
+    },
+    "Demons": {
+      "Fang Gu": [
+        "grasping-claws",
+        "Each night*, choose a player: they die. The 1st Outsider this kills becomes an evil Fang Gu & you die instead. [+1 Outsider]"
+      ],
+      "Vigormortis": [
+        "boss-key",
+        "Each night*, choose a player: they die. Minions you kill keep their ability & poison 1 Townsfolk neighbor. [-1 Outsider]"
+      ],
+      "No Dashii": [
+        "octopus",
+        "Each night*, choose a player: they die. Your 2 Townsfolk neighbors are poisoned."
+      ],
+      "Vortox": [
+        "tornado",
+        "Each night*, choose a player: they die. Townsfolk abilities yield false info. Each day, if no-one is executed, evil wins."
+      ]
+    }
+  },
+  "nightorder": {
+    "1": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Philosopher (If in play)",
+        "text": "The Philosopher might choose a character. If necessary, swap their character token.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Minion Info",
+        "text": "If there are 7 or more players, wake all Minions: Show the *THIS IS THE DEMON* token. Point to the Demon.",
+        "messages": ["THIS IS THE DEMON"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Demon Info",
+        "text": "If there are 7 or more players, wake the Demon: Show the *THESE ARE YOUR MINIONS* token. Point to all Minions. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
+        "messages": [
+          "THESE ARE YOUR MINIONS",
+          "THESE CHARACTERS ARE NOT IN PLAY"
+        ],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Snake Charmer (If in play)",
+        "text": "The Snake Charmer chooses a player. If they chose the Demon: Show the *YOU ARE* & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the *YOU ARE THE SNAKE CHARMER* token & give a thumbs up.",
+        "messages": ["YOU ARE", "YOU ARE THE SNAKE CHARMER"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Evil Twin (If in play)",
+        "text": "Wake both twins. Allow eye contact. Show the good twin's character token to the Evil Twin & vice versa.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Witch (If in play)",
+        "text": "The Witch chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Cerenovus (If in play)",
+        "text": "The Cerenovus chooses a player & a character. Put the Cerenovus to sleep. Wake the target. Show the *THE CERENOVUS SELECTED YOU* token, then the madness-character token.",
+        "messages": ["THE CERENOVUS SELECTED YOU"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Clockmaker (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dreamer (If in play)",
+        "text": "The Dreamer points to a player. Show 1 good & 1 evil character token, 1 of which is their character.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Seamstress (If in play)",
+        "text": "The Seamstress might choose 2 players. Nod or shake your head.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Mathematician (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ],
+    "*": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Philosopher (If in play)",
+        "text": "The Philosopher might choose a character. If necessary, swap their character token.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Snake Charmer (If in play)",
+        "text": "The Snake Charmer chooses a player. If they chose the Demon: Show the *YOU ARE* & Demon tokens. Give a thumbs down. Swap the Snake Charmer & Demon tokens. Put the old Snake Charmer to sleep. Wake the old Demon. Show the *YOU ARE THE SNAKE CHARMER* token & give a thumbs up.",
+        "messages": ["YOU ARE", "YOU ARE THE SNAKE CHARMER"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Witch (If in play)",
+        "text": "The Witch chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Cerenovus (If in play)",
+        "text": "The Cerenovus chooses a player & a character. Put the Cerenovus to sleep. Wake the target. Show the *THE CERENOVUS SELECTED YOU* token, then the madness-character token.",
+        "messages": ["THE CERENOVUS SELECTED YOU"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Pit-Hag (If in play)",
+        "text": "The Pit-Hag chooses a player & a character. If they chose a character that is not in play: Put the Pit-Hag to sleep. Wake the target. Show the *YOU ARE* token & their new character token.",
+        "messages": ["YOU ARE"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Fang Gu (If in play)",
+        "text": "The Fang Gu chooses a player. If they chose an Outsider (once only): Replace the Outsider token with the spare Fang Gu token. Put the Fang Gu to sleep. Wake the target. Show the *YOU ARE THE FANG GU* token & give a thumbs-down.",
+        "messages": ["YOU ARE THE FANG GU"],
+        "tokenpresenter": false
+      },
+      {
+        "title": "No Dashii (If in play)",
+        "text": "The No Dashii chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Vortox (If in play)",
+        "text": "The Vortox chooses a player.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Vigormortis (If in play)",
+        "text": "The Vigormortis chooses a player. If that player is a Minion, poison a neighboring Townsfolk.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Barber (If in play)",
+        "text": "If the Barber died today or tonight, show the Demon the *THE BARBER SELECTED YOU* token. If the Demon chose 2 players, wake one at a time. Show the *YOU ARE* token & their new character token.",
+        "messages": ["THE BARBER SELECTED YOU", "YOU ARE"],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Sweetheart (If in play)",
+        "text": "If the Sweetheart died, a player became drunk immediately. If you haven't done this yet, do so now.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Sage (If in play)",
+        "text": "If the Demon killed the Sage, wake the Sage and point to 2 players, 1 of which is the Demon.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dreamer (If in play)",
+        "text": "The Dreamer points to a player. Show 1 good & 1 evil character token, 1 of which is their character.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Flowergirl (If in play)",
+        "text": "Either nod or shake your head.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Town Crier (If in play)",
+        "text": "Either nod or shake your head.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Oracle (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Seamstress (If in play)",
+        "text": "The Seamstress might choose 2 players. Nod or shake your head.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Juggler (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Mathematician (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ]
+  },
+  "info": "* Not on Night One",
+  "rolecount": {
+    "Townsfolk": {
+      "5": 3,
+      "6": 3,
+      "7": 5,
+      "8": 5,
+      "9": 5,
+      "10": 7,
+      "11": 7,
+      "12": 7,
+      "13": 9,
+      "14": 9,
+      "15": 9
+    },
+    "Outsiders": {
+      "5": 0,
+      "6": 1,
+      "7": 0,
+      "8": 1,
+      "9": 2,
+      "10": 0,
+      "11": 1,
+      "12": 2,
+      "13": 0,
+      "14": 1,
+      "15": 2
+    },
+    "Minions": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 2,
+      "11": 2,
+      "12": 2,
+      "13": 3,
+      "14": 3,
+      "15": 3
+    },
+    "Demons": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1
+    }
+  }
+}

@@ -107,7 +107,9 @@ hostBtn.addEventListener("click", () => {
         input: "select",
         inputOptions: {
           troublebrewing: "Trouble Brewing",
+          sectsandviolets: "Sects and Violets",
           punchy: "Punchy",
+          paranoia: "Paranoia",
         },
         showCancelButton: true,
       }).then((outE) => {
@@ -157,6 +159,7 @@ function leaveRoom() {
     document.getElementById("hosted").style.display = "none";
     document.getElementById("joined").style.display = "none";
     document.getElementById("initial").style.display = "block";
+    document.getElementById("footer").style.display = "block";
     messages.innerHTML = "";
     window.history.replaceState(null, "", "/");
     window.location.reload();
@@ -227,6 +230,7 @@ socket.on("hosted", (code) => {
     });
   document.getElementById("initial").style.display = "none";
   document.getElementById("hosted").style.display = "block";
+  document.getElementById("footer").style.display = "none";
   document.getElementById("roomCode").textContent = code;
   updateGlobalTimerDisplay();
   loadNotes();
@@ -241,6 +245,7 @@ socket.on("joined", (data) => {
   currentUsernames = new Set(data.usernames);
   document.getElementById("initial").style.display = "none";
   document.getElementById("joined").style.display = "block";
+  document.getElementById("footer").style.display = "none";
   document.getElementById("username").textContent = data.username;
   updateGlobalTimerDisplay();
   loadNotes();
@@ -289,6 +294,7 @@ socket.on("reconnected-host", (code) => {
   }
   document.getElementById("initial").style.display = "none";
   document.getElementById("hosted").style.display = "block";
+  document.getElementById("footer").style.display = "none";
   document.getElementById("roomCode").textContent = code;
   loadNotes();
   document
@@ -301,6 +307,7 @@ socket.on("reconnected-join", (data) => {
   currentUsernames = new Set(data.usernames);
   document.getElementById("initial").style.display = "none";
   document.getElementById("joined").style.display = "block";
+  document.getElementById("footer").style.display = "none";
   document.getElementById("username").textContent = data.username;
   loadNotes();
   document
@@ -583,6 +590,9 @@ function displayCharacterSheet() {
     });
     html += "</div>";
   });
+  if (editionData.info) {
+    html += `<div class='edition-info'><h3>Additional Information</h3><p>${editionData.info}</p></div>`;
+  }
   html += "</div>";
 
   Swal.fire({
