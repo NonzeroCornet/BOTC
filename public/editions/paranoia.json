@@ -463,7 +463,7 @@
       }
     ]
   },
-  "info": "Calamities&lt;br&gt;&lt;br&gt;&lt;br&gt;Drunk Party - All good players receive faulty information.&lt;br&gt;&lt;br&gt;Storm - Player information is skipped.&lt;br&gt;&lt;br&gt;Mandela Effect - Player information is presented the same as the night before.&lt;br&gt;&lt;br&gt;False Flag - One good player registers as evil to all abilities tonight.&lt;br&gt;&lt;br&gt;Mob - A random player is on the chopping block. No one knows who.&lt;br&gt;&lt;br&gt;Drought - If there are no nominations today, someone random will be executed.&lt;br&gt;&lt;br&gt;Telephone - Information is given to the wrong players, but is otherwise true.&lt;br&gt;&lt;br&gt;&lt;br&gt;Speaking with the Storyteller does not count as speaking in private&lt;br&gt;&lt;br&gt;* Not the First Night",
+  "info": "Calamities<br><br><br>Drunk Party - All good players receive faulty information.<br><br>Storm - Player information is skipped.<br><br>Mandela Effect - Player information is presented the same as the night before.<br><br>False Flag - One good player registers as evil to all abilities tonight.<br><br>Mob - A random player is on the chopping block. No one knows who.<br><br>Drought - If there are no nominations today, someone random will be executed.<br><br>Telephone - Information is given to the wrong players, but is otherwise true.<br><br><br>Speaking with the Storyteller does not count as speaking in private<br><br>* Not the First Night",
   "rolecount": {
     "Townsfolk": {
       "5": 3,
