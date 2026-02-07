@@ -1,18 +1,21 @@
 {
   "roles": {
     "Townsfolk": {
-      "Farmer": ["wheat", "Each night, you learn if a calamity is in play."],
+      "Farmer": [
+        "wheat",
+        "Each night, you learn if a calamity is in play. You are immune to calamities."
+      ],
       "Barkeep": [
         "sake-bottle",
-        "Each day, you may pick a player. If they received information during the night, you might learn what it was. That player is poisoned tonight."
+        "Each day, you may pick a player. If they received information during the night, you learn what it was. That player is poisoned tonight."
       ],
       "Guard": [
         "spartan",
-        "Each night, learn if any evil players spoke in private that day."
+        "Each night, learn if any evil players stood up that day."
       ],
       "Worry-Wort": [
         "dread",
-        "Each night, you will learn something true. You do not know what it means until you die."
+        "Each night, you may learn something true. You do not know what it means until you die."
       ],
       "Blacksmith": [
         "anvil",
@@ -22,11 +25,14 @@
         "telescope",
         "On night two, pick a player. They are no longer affected by calamities."
       ],
-      "Cursed Child": [
-        "intricate-necklace",
-        "If you are executed, a calamity will occur during the night."
+      "Mad Scientist": [
+        "fizzing-flask",
+        "Each day, ask the storyteller a question. They will tell you one player who might know the answer. The storyteller may prompt you to ask a different question."
       ],
-      "Villager": ["village", "You know nothing."],
+      "Villager": [
+        "village",
+        "Each night, you learn if the alignment of one or both of your neighbors has changed."
+      ],
       "Robber": [
         "cowled",
         "Once per game, choose a player. You now have the same role, but are poisoned tomorrow night."
@@ -40,9 +46,9 @@
         "black-book",
         "You start knowing if one or both of two players are good."
       ],
-      "Follower": [
-        "robe",
-        "Each night, pick a player. You believe anything they say. If you reveal who you followed, you will be executed immediately."
+      "Stalker": [
+        "worried-eyes",
+        "Each night, pick a player. You learn if they were woken up in the night."
       ],
       "Village Chief": [
         "wizard-staff",
@@ -54,23 +60,23 @@
         "evil-book",
         "You believe you are the demon. You are not. You may register as evil."
       ],
-      "Mad Scientist": [
-        "fizzing-flask",
-        "Each day, ask the storyteller a question. They will tell you one player who might know the answer. You register as evil."
+      "Follower": [
+        "robe",
+        "Each night, pick a player. You believe anything they say. If you reveal who you followed, you might be executed."
       ],
-      "Stalker": [
-        "worried-eyes",
-        "Each night, pick a player. You learn if they were woken up in the night."
+      "Cursed Child": [
+        "intricate-necklace",
+        "If you are executed, a calamity will occur during the night."
       ],
       "Nay-Sayer": [
         "public-speaker",
-        "You are mad that you are a townsfolk. You think all players are good and will always defend them. If you break madness, you will be executed immediately."
+        "You are mad that you are a townsfolk. You think all players are good and will always defend them. If you break madness, you might be executed."
       ]
     },
     "Minions": {
       "Doombringer": [
         "ophanim",
-        "Each night, choose a calamity. This calamity may go into effect tomorrow night, lasting only one night, in secret."
+        "Each night, choose a calamity you have not chosen before. This calamity may go into effect tomorrow night, lasting only one night, in secret."
       ],
       "Shapeshifter": [
         "double-face-mask",
@@ -92,15 +98,15 @@
       ],
       "Zombie": [
         "raise-zombie",
-        "Each night, pick a player. If they are the Villager, your team loses. Otherwise, they die."
+        "Each night, pick a player, even if you are dead. They die. All evil players must die for good to win."
       ],
       "Mind Flayer": [
         "tentacles-skull",
-        "Each night, pick a player. They are now evil. They will die tomorrow night. [-2 Minions, +2 Outsiders]"
+        "Each night, pick a player. Tomorrow, they are mad that they are evil. They will die tomorrow night. [-2 Minions, +2 Outsiders]"
       ],
       "Plague": [
         "smoking-orb",
-        "Each night, pick a player. They are now the Plague, and you have died."
+        "Each night, pick a player. If they are a townsfolk, they are now the Plague, and you have died."
       ]
     }
   },
@@ -269,8 +275,8 @@
       },
       {
         "title": "Mind Flayer (If in play)",
-        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE NOW EVIL* token. Kill the previously chosen player.",
-        "messages": ["YOU ARE NOW EVIL"],
+        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE MAD THAT YOU ARE EVIL* token. Kill the previously chosen player.",
+        "messages": ["YOU ARE MAD THAT YOU ARE EVIL"],
         "tokenpresenter": false
       },
       {
@@ -324,6 +330,12 @@
       {
         "title": "Stalker (If in play)",
         "text": "The Stalker chooses a player. Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Villager (If in play)",
+        "text": "Give a yes/no signal.",
         "messages": [],
         "tokenpresenter": false
       },
@@ -432,6 +444,12 @@
         "tokenpresenter": false
       },
       {
+        "title": "Villager (If in play)",
+        "text": "Give a yes/no signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
         "title": "Dawn",
         "text": "Wait for a few seconds. End the Night Phase.",
         "messages": [],
@@ -445,7 +463,7 @@
       }
     ]
   },
-  "info": "Calamities<br><br><br>Drunk Party - All good players receive faulty information.<br><br>Storm - Player information is skipped.<br><br>Mandela Effect - Player information is presented the same as the night before.<br><br>False Flag - One good player registers as evil to all abilities tonight.<br><br>Mob - A random player is on the chopping block. No one knows who.<br><br>Drought - If there are no nominations today, someone random will be executed.<br><br>Telephone - Information is given to the wrong players, but is otherwise true.<br><br><br>Speaking with the Storyteller does not count as speaking in private<br><br>* Not the First Night",
+  "info": "Calamities&lt;br&gt;&lt;br&gt;&lt;br&gt;Drunk Party - All good players receive faulty information.&lt;br&gt;&lt;br&gt;Storm - Player information is skipped.&lt;br&gt;&lt;br&gt;Mandela Effect - Player information is presented the same as the night before.&lt;br&gt;&lt;br&gt;False Flag - One good player registers as evil to all abilities tonight.&lt;br&gt;&lt;br&gt;Mob - A random player is on the chopping block. No one knows who.&lt;br&gt;&lt;br&gt;Drought - If there are no nominations today, someone random will be executed.&lt;br&gt;&lt;br&gt;Telephone - Information is given to the wrong players, but is otherwise true.&lt;br&gt;&lt;br&gt;&lt;br&gt;Speaking with the Storyteller does not count as speaking in private&lt;br&gt;&lt;br&gt;* Not the First Night",
   "rolecount": {
     "Townsfolk": {
       "5": 3,
