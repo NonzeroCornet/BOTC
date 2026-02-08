@@ -147,7 +147,7 @@
       },
       {
         "title": "Doombringer (If in play)",
-        "text": "The Doombringer chooses a calamity (see \"Additional Information\".",
+        "text": "The Doombringer chooses a calamity (see \"Additional Information\").",
         "messages": [],
         "tokenpresenter": false
       },
@@ -165,13 +165,13 @@
       },
       {
         "title": "Mind Flayer (If in play)",
-        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE NOW EVIL* token.",
-        "messages": ["YOU ARE NOW EVIL"],
+        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE MAD THAT YOU ARE EVIL* token. Kill the previously chosen player.",
+        "messages": ["YOU ARE MAD THAT YOU ARE EVIL"],
         "tokenpresenter": false
       },
       {
         "title": "Plague (If in play)",
-        "text": "The Plague chooses a player. Kill the Plague",
+        "text": "The Plague chooses a player. Kill the Plague.",
         "messages": [],
         "tokenpresenter": false
       },
@@ -257,7 +257,7 @@
       },
       {
         "title": "Doombringer (If in play)",
-        "text": "The Doombringer chooses a calamity (see \"Additional Information\".",
+        "text": "The Doombringer chooses a calamity (see \"Additional Information\").",
         "messages": [],
         "tokenpresenter": false
       },
@@ -281,7 +281,7 @@
       },
       {
         "title": "Plague (If in play)",
-        "text": "The Plague chooses a player. Kill the Plague",
+        "text": "The Plague chooses a player. Kill the Plague.",
         "messages": [],
         "tokenpresenter": false
       },
@@ -367,7 +367,7 @@
       },
       {
         "title": "Doombringer (If in play)",
-        "text": "The Doombringer chooses a calamity (see \"Additional Information\".",
+        "text": "The Doombringer chooses a calamity (see \"Additional Information\").",
         "messages": [],
         "tokenpresenter": false
       },
@@ -385,13 +385,13 @@
       },
       {
         "title": "Mind Flayer (If in play)",
-        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE NOW EVIL* token. Kill the previously chosen player.",
-        "messages": ["YOU ARE NOW EVIL"],
+        "text": "The Mind Flayer chooses a player. Put the Mind Flayer to sleep. Wake the chosen player. Show the *YOU ARE MAD THAT YOU ARE EVIL* token. Kill the previously chosen player.",
+        "messages": ["YOU ARE MAD THAT YOU ARE EVIL"],
         "tokenpresenter": false
       },
       {
         "title": "Plague (If in play)",
-        "text": "The Plague chooses a player. Kill the Plague",
+        "text": "The Plague chooses a player. Kill the Plague.",
         "messages": [],
         "tokenpresenter": false
       },
