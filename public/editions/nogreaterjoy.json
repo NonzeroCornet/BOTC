@@ -37,10 +37,7 @@
       ]
     },
     "Minions": {
-      "Baron": [
-        "top-hat",
-        "There are extra Outsiders in play. [+2 Outsiders]"
-      ],
+      "Baron": ["top-hat", "There are extra Outsiders in play. [+2 Outsiders]"],
       "Scarlet Woman": [
         "lips",
         "If there are 5 or more players alive and the Demon dies, you become the Demon (Travellers don't count)."
@@ -64,9 +61,7 @@
       {
         "title": "Minion Info",
         "text": "If there are 7 or more players, wake all Minions: Show the *THIS IS THE DEMON* token. Point to the Demon.",
-        "messages": [
-          "THIS IS THE DEMON"
-        ],
+        "messages": ["THIS IS THE DEMON"],
         "tokenpresenter": false
       },
       {
@@ -119,17 +114,13 @@
       {
         "title": "Scarlet Woman (If in play)",
         "text": "If the Scarlet Woman became the Demon today, show them the *YOU ARE* token, then the Demon token.",
-        "messages": [
-          "YOU ARE THE DEMON"
-        ],
+        "messages": ["YOU ARE THE DEMON"],
         "tokenpresenter": false
       },
       {
         "title": "Imp",
         "text": "The Imp chooses a player. If the Imp chose themselves, replace 1 alive Minion token with a spare Imp token. Put the old Imp to sleep. Wake the new Imp. Show the *YOU ARE* token, then show the Imp token.",
-        "messages": [
-          "YOU ARE THE IMP"
-        ],
+        "messages": ["YOU ARE THE IMP"],
         "tokenpresenter": false
       },
       {
