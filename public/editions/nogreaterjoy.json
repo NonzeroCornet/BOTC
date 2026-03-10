@@ -1,0 +1,216 @@
+{
+  "roles": {
+    "Townsfolk": {
+      "Investigator": [
+        "magnifying-glass",
+        "You start knowing that 1 of 2 players is a particular Minion."
+      ],
+      "Empath": [
+        "hearts",
+        "Each night, you learn how many of your 2 alive neighbors are evil."
+      ],
+      "Clockmaker": [
+        "clockwork",
+        "You start knowing how many steps from the Demon to its nearest Minion."
+      ],
+      "Chambermaid": [
+        "broom",
+        "Each night, choose 2 alive players (not yourself): you learn how many woke tonight due to their ability."
+      ],
+      "Artist": [
+        "large-paint-brush",
+        "Once per game, during the day, privately ask the Storyteller any yes/no question."
+      ],
+      "Sage": [
+        "candle-holder",
+        "If the Demon kills you, you learn that it is 1 of 2 players."
+      ]
+    },
+    "Outsiders": {
+      "Drunk": [
+        "beer-stein",
+        "You do not know you are the drunk. You think you are a Townsfolk character, but you are not."
+      ],
+      "Klutz": [
+        "banana-peel",
+        "When you learn that you died, publicly choose 1 alive player: if they are evil, your team loses."
+      ]
+    },
+    "Minions": {
+      "Baron": [
+        "top-hat",
+        "There are extra Outsiders in play. [+2 Outsiders]"
+      ],
+      "Scarlet Woman": [
+        "lips",
+        "If there are 5 or more players alive and the Demon dies, you become the Demon (Travellers don't count)."
+      ]
+    },
+    "Demons": {
+      "Imp": [
+        "harpoon-trident",
+        "Each night*, choose a player. They die. If you kill yourself this way, a Minion becomes the Imp."
+      ]
+    }
+  },
+  "nightorder": {
+    "1": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Minion Info",
+        "text": "If there are 7 or more players, wake all Minions: Show the *THIS IS THE DEMON* token. Point to the Demon.",
+        "messages": [
+          "THIS IS THE DEMON"
+        ],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Demon Info",
+        "text": "If there are 7 or more players, wake the Demon: Show the *THESE ARE YOUR MINIONS* token. Point to all Minions. Show the *THESE CHARACTERS ARE NOT IN PLAY* token. Show 3 not-in-play good character tokens.",
+        "messages": [
+          "THESE ARE YOUR MINIONS",
+          "THESE CHARACTERS ARE NOT IN PLAY"
+        ],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Investigator (If in play)",
+        "text": "Show the Minion character token. Point to both the *MINION* and *WRONG* players.",
+        "messages": [],
+        "tokenpresenter": true
+      },
+      {
+        "title": "Empath (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Clockmaker (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Chambermaid (If in play)",
+        "text": "The Chambermaid chooses 2 players. Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ],
+    "*": [
+      {
+        "title": "Dusk",
+        "text": "Start the Night phase",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Scarlet Woman (If in play)",
+        "text": "If the Scarlet Woman became the Demon today, show them the *YOU ARE* token, then the Demon token.",
+        "messages": [
+          "YOU ARE THE DEMON"
+        ],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Imp",
+        "text": "The Imp chooses a player. If the Imp chose themselves, replace 1 alive Minion token with a spare Imp token. Put the old Imp to sleep. Wake the new Imp. Show the *YOU ARE* token, then show the Imp token.",
+        "messages": [
+          "YOU ARE THE IMP"
+        ],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Sage (If in play)",
+        "text": "If the Demon killed the Sage, wake the Sage and point to 2 players, 1 of which is the Demon.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Empath (If in play)",
+        "text": "Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Chambermaid (If in play)",
+        "text": "The Chambermaid chooses 2 players. Give a finger signal.",
+        "messages": [],
+        "tokenpresenter": false
+      },
+      {
+        "title": "Dawn",
+        "text": "Wait for a few seconds. End the Night Phase.",
+        "messages": [],
+        "tokenpresenter": false
+      }
+    ]
+  },
+  "info": "* Not the First Night",
+  "rolecount": {
+    "Townsfolk": {
+      "5": 3,
+      "6": 3,
+      "7": 5,
+      "8": 5,
+      "9": 5,
+      "10": 7,
+      "11": 7,
+      "12": 7,
+      "13": 9,
+      "14": 9,
+      "15": 9
+    },
+    "Outsiders": {
+      "5": 0,
+      "6": 1,
+      "7": 0,
+      "8": 1,
+      "9": 2,
+      "10": 0,
+      "11": 1,
+      "12": 2,
+      "13": 0,
+      "14": 1,
+      "15": 2
+    },
+    "Minions": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 2,
+      "11": 2,
+      "12": 2,
+      "13": 3,
+      "14": 3,
+      "15": 3
+    },
+    "Demons": {
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1
+    }
+  }
+}

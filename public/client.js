@@ -109,7 +109,8 @@ hostBtn.addEventListener("click", () => {
           troublebrewing: "Trouble Brewing",
           sectsandviolets: "Sects and Violets",
           punchy: "Punchy",
-          paranoia: "Paranoia",
+          nogreaterjoy: "No Greater Joy (Teensyville)",
+          paranoia: "Paranoia (Homebrew)",
         },
         showCancelButton: true,
       }).then((outE) => {
